@@ -1,18 +1,15 @@
 #ifndef SEEN_TILES_H
 #define SEEN_TILES_H
 
-#include <array>
-#include <tuple>
-#include <string>
+#include <vector>
 #include "types.h"
-
-using namespace std;
+#include "projection.h"
 
 class SeenTiles {
     private:
         Fov fov;
-        Tiling tiling;
         const Projection *projection;
+        Tiling tiling;
         Resolution resolution;
         Frustrum default_frustrum;
         
@@ -23,7 +20,8 @@ class SeenTiles {
         
     public:
         SeenTiles(const Fov &fov, const Projection *projection);
-        vector<Tile> get_vptiles(ViewportCoord vp_coord);
+        std::vector<Tile> get_vptiles(ViewportCoord vp_coord);
+
 };
 
 #endif
