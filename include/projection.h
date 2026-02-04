@@ -3,27 +3,23 @@
 
 #include <string>
 #include <vector>
-#include "types.h"
 
-using namespace std;
+#include "types.h"
 
 class Projection
 {
-protected:
-    int n_tiles;
-
 public:
-    vector<Tile> tile_list;
+    Projection(const Resolution &resolution, const Tiling &tiling);
+    std::vector<Tile> tile_list;
     Resolution resolution;
     Resolution tile_resolution;
     Tiling tiling;
+    int n_tiles;
 
-    virtual Point3D nm2xyz(const ImagePoint &nm) const = 0;
-    virtual ImagePoint xyz2nm(const Point3D &xyz) const = 0;
-
-    Projection(const Resolution &resolution, const Tiling &tiling);
-    vector<Tile> make_tile_list();
-    vector<ImagePoint> get_tile_borders(const Tile &tile);
+    std::vector<Tile> make_tile_list();
+    std::vector<ImagePoint> get_tile_borders(const Tile &tile);
+    
+    virtual Point3D mn2xyz(const ImagePoint &mn) const = 0;
 };
 
 #endif // PROJECTION_H
