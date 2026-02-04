@@ -2,16 +2,20 @@
 #define TYPES_H
 
 #include <array>
+#include <vector>
+#include <cmath>
 
-using namespace std;
+#define PI 3.1415926535897932384626433832795    // PI
+#define PI_2 1.5707963267948966192313216916398  // PI / 2
+#define TWO_PI 6.283185307179586476925286766559 // 2 * PI
 
 struct ViewportCoord
 {
-    float yaw;
-    float pitch;
-    float roll;
+    double yaw;
+    double pitch;
+    double roll;
 
-    ViewportCoord(float yaw = 0, float pitch = 0, float roll = 0)
+    ViewportCoord(double yaw = 0, double pitch = 0, double roll = 0)
         : yaw(yaw), pitch(pitch), roll(roll) {}
 
     bool operator==(const ViewportCoord &other) const
@@ -22,11 +26,11 @@ struct ViewportCoord
 
 struct Point3D
 {
-    float x;
-    float y;
-    float z;
+    double x;
+    double y;
+    double z;
 
-    Point3D(float x = 0, float y = 0, float z = 0)
+    Point3D(double x = 0, double y = 0, double z = 0)
         : x(x), y(y), z(z) {}
 
     bool operator==(const Point3D &other) const
@@ -49,6 +53,34 @@ struct ImagePoint
     }
 };
 
+struct UvPoint
+{
+    double u;
+    double v;
+
+    UvPoint(double u = 0, double v = 0)
+        : u(u), v(v) {}
+
+    bool operator==(const UvPoint &other) const
+    {
+        return u == other.u && v == other.v;
+    }
+};
+
+struct AePoint
+{
+    double azimuth;
+    double elevation;
+
+    AePoint(double azimuth = 0.0f, double elevation = 0.0f)
+        : azimuth(azimuth), elevation(elevation) {}
+
+    bool operator==(const AePoint &other) const
+    {
+        return this->azimuth == other.azimuth && this->elevation == other.elevation;
+    }
+};
+
 struct Resolution
 {
     int w;
@@ -63,23 +95,35 @@ struct Resolution
     }
 };
 
+struct Fov
+{
+    double fov_x;
+    double fov_y;
+
+    Fov(double fov_x = 0.0, double fov_y = 0.0)
+        : fov_x(fov_x), fov_y(fov_y) {}
+
+    bool operator==(const Fov &other) const
+    {
+        return fov_x == other.fov_x && fov_y == other.fov_y;
+    }
+};
 using Tiling = Resolution;
-using Fov = Resolution;
 using Normal = Point3D;
 
 struct Frustrum
 {
-    array<Normal, 4> normals; // left, right, top, bottom
+    std::array<Normal, 4> normals; // left, right, top, bottom
 
-    Frustrum(Normal normal_left, Normal normal_right, Normal normal_top, Normal normal_bottom)
+    Frustrum(Normal normal_left = {},
+             Normal normal_right = {},
+             Normal normal_top = {},
+             Normal normal_bottom = {})
         : normals({normal_left, normal_right, normal_top, normal_bottom}) {}
-
-    Frustrum()
-        : normals({Normal(0, 0, 0), Normal(0, 0, 0), Normal(0, 0, 0), Normal(0, 0, 0)}) {}
 
     bool operator==(const Frustrum &other) const
     {
-        return normals[0] == other.normals[0] && normals[1] == other.normals[1] && normals[2] == other.normals[2] && normals[3] == other.normals[3];
+        return normals == other.normals;
     }
 };
 
@@ -90,10 +134,13 @@ struct Tile
     int index;
     Resolution resolution;
     ImagePoint position;
-    vector<ImagePoint> borders;
+    std::vector<ImagePoint> borders;
 
-    Tile(int index, Resolution resolution, ImagePoint position)
-        : index(index), resolution(resolution), position(position) {};
+    Tile(int index, const Resolution &resolution,
+         const ImagePoint &position,
+         const std::vector<ImagePoint> &borders = {})
+        : index(index), resolution(resolution),
+          position(position), borders(borders) {}
 };
 
 #endif // TYPES_H
