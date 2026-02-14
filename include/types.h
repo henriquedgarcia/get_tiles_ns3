@@ -1,9 +1,12 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#include <array>
+#include <array> // std::array
 #include <cmath>
-#include <vector>
+#include <variant> // std::variant
+#include <vector> // std::vector
+#include <string> // std::string
+#include "types.h"
 
 #define PI 3.1415926535897932384626433832795    // PI
 #define PI_2 1.5707963267948966192313216916398  // PI / 2
@@ -29,6 +32,8 @@ struct Point3D {
         return x == other.x && y == other.y && z == other.z;
     }
 };
+
+using Normal = Point3D;
 
 struct ImagePoint {
     int m;
@@ -76,6 +81,8 @@ struct Resolution {
     }
 };
 
+using Tiling = Resolution;
+
 struct Fov {
     double fov_x;
     double fov_y;
@@ -86,8 +93,6 @@ struct Fov {
         return fov_x == other.fov_x && fov_y == other.fov_y;
     }
 };
-using Tiling = Resolution;
-using Normal = Point3D;
 
 struct Frustrum {
     std::array<Normal, 4> normals; // left, right, top, bottom
@@ -101,8 +106,6 @@ struct Frustrum {
     }
 };
 
-using Mat3 = std::array<std::array<double, 3>, 3>;
-
 struct Tile {
     int index;
     Resolution resolution;
@@ -114,5 +117,10 @@ struct Tile {
         : index(index), resolution(resolution), position(position),
           borders(borders) {}
 };
+
+using Mat3 = std::array<std::array<double, 3>, 3>;
+using Field = std::variant<int, double, std::string>;
+enum class Exception { FILE_NOT_FOUND };
+using Row = std::vector<Field>;
 
 #endif // TYPES_H
