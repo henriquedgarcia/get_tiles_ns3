@@ -1,9 +1,9 @@
 #include "csv_handler.h"
-#include <iostream>
-#include <vector>
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <variant>
-
+#include <vector>
 
 CsvHandler::CsvHandler(const std::string& filename,
                        const std::vector<std::string>& columnTypes)
@@ -32,7 +32,7 @@ void CsvHandler::write_csv_line(std::ofstream& out,
 }
 
 int CsvHandler::write(const std::vector<Row>& rows,
-                      const std::vector<std::string>& headers = {}) {
+                      const std::vector<std::string>& headers) {
     std::ofstream output_file_stream(this->filename);
 
     if (!output_file_stream.is_open())
@@ -49,7 +49,7 @@ int CsvHandler::write(const std::vector<Row>& rows,
     return count;
 }
 
-std::vector<Row> CsvHandler::read(bool skipHeader = true) {
+std::vector<Row> CsvHandler::read(bool skipHeader) {
     std::ifstream file(this->filename);
     std::vector<Row> rows;
     std::string line;
