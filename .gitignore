@@ -5,3 +5,8 @@
 /build
 /.idea
 /csv/csv
+*.pdb
+*.exe
+/thirdparty
+/bin/Debug
+/bin/Release
