@@ -1,7 +1,7 @@
-#include "erp.h"
-#include "seen_tiles.h"
-#include "types.h"
-#include "utils.h"
+#include "erp.hpp"
+#include "seen_tiles.hpp"
+#include "types.hpp"
+#include "utils.hpp"
 #include <iostream>
 
 using namespace std;

@@ -1,4 +1,4 @@
-#include "erp.h"
+#include "erp.hpp"
 
 Point3D ERP::mn2xyz(const ImagePoint &mn) const
 {

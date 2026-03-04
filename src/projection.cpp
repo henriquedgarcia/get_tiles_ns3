@@ -1,5 +1,5 @@
-#include "projection.h"
-#include "types.h"
+#include "projection.hpp"
+#include "types.hpp"
 #include <vector>
 
 using namespace std;

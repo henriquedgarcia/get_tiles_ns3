@@ -1,7 +1,7 @@
-#include "mat_rot.h"
-#include "seen_tiles.h"
-#include "types.h"
-#include "projection.h"
+#include "mat_rot.hpp"
+#include "seen_tiles.hpp"
+#include "types.hpp"
+#include "projection.hpp"
 
 #include <array>
 #include <string>

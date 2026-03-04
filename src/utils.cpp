@@ -1,12 +1,12 @@
-#include "utils.h"
-
 #include <fstream> // std::ofstream, std::ifstream
 #include <iostream>
 #include <numeric> // std::iota
 #include <sstream> // std::stringstream
 #include <vector>  // std::vector
 
-#include "types.h"
+#include "utils.hpp"
+#include "types.hpp"
+
 
 std::pair<double, double> linear_regression(const std::vector<double>& y) {
     int n = (int)y.size();

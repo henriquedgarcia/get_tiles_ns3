@@ -1,5 +1,5 @@
-#include "mat_rot.h"
-#include "types.h"
+#include "mat_rot.hpp"
+#include "types.hpp"
 #include <ranges>
 
 namespace MatRot
