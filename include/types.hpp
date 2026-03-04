@@ -33,8 +33,6 @@ struct Point3D {
     }
 };
 
-using Normal = Point3D;
-
 struct ImagePoint {
     int m;
     int n;
@@ -93,6 +91,8 @@ struct Fov {
         return fov_x == other.fov_x && fov_y == other.fov_y;
     }
 };
+
+using Normal = Point3D;
 
 struct Frustrum {
     std::array<Normal, 4> normals; // left, right, top, bottom
