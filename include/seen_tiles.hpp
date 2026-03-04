@@ -2,8 +2,8 @@
 #define SEEN_TILES_H
 
 #include <vector>
-#include "types.h"
-#include "projection.h"
+#include "types.hpp"
+#include "projection.hpp"
 
 class SeenTiles {
     private:

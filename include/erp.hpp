@@ -1,7 +1,7 @@
 #ifndef ERP_H
 #define ERP_H
 
-#include "projection.h"
+#include "projection.hpp"
 
 class ERP : public Projection
 {

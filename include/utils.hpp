@@ -6,7 +6,7 @@
 #include <numeric> // std::iota
 #include <vector>
 
-#include "types.h" // Point3D
+#include "types.hpp" // Point3D
 
 inline double deg2rad(double deg) { return deg * std::numbers::pi / 180.0; }
 

@@ -6,7 +6,7 @@
 #include <variant> // std::variant
 #include <vector> // std::vector
 #include <string> // std::string
-#include "types.h"
+#include "types.hpp"
 
 #define PI 3.1415926535897932384626433832795    // PI
 #define PI_2 1.5707963267948966192313216916398  // PI / 2

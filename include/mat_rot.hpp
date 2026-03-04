@@ -1,7 +1,7 @@
 #ifndef MAT_ROT_H
 #define MAT_ROT_H
 
-#include "types.h"
+#include "types.hpp"
 
 namespace MatRot
 {
