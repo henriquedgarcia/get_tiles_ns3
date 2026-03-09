@@ -10,3 +10,10 @@
 /thirdparty
 /bin/Debug
 /bin/Release
+bin/main
+bin/starry_night.png
+bin/teste.png
+cmake_install.cmake
+CMakeCache.txt
+/CMakeFiles
+Makefile
