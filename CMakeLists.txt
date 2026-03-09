@@ -8,11 +8,13 @@
 # sudo apt update
 # sudo apt install build-essential cmake pkg-config libopencv-dev ffmpeg
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 project(GetTiles)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(OpenCV REQUIRED)
 
 set(SOURCES
     src/main.cpp
@@ -23,14 +25,8 @@ set(SOURCES
     src/utils.cpp
     src/csv_handler.cpp
 )
-
-add_executable(main ${SOURCES})
-
-find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/include)
-target_link_libraries(main ${OpenCV_LIBS})
-
-set_target_properties(main PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin"
-)
+add_executable(main ${SOURCES})
+target_link_libraries(main PRIVATE ${OpenCV_LIBS})
+set_target_properties(main PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
