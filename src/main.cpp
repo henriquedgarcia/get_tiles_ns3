@@ -97,18 +97,20 @@ void Test::test_predictor() {
 void Test::test_CsvHandler() {}
 
 void Test::test_OpenCV() {
-    std::string image_path = samples::findFile("starry_night.jpg");
+    std::string image_path = samples::findFile("teste.png");
     Mat img = imread(image_path, IMREAD_COLOR);
 
     if (img.empty()) {
         std::cout << "Could not read the image: " << image_path << std::endl;
         return;
     }
+    std::cout << "Exibindo: " << image_path << std::endl;
 
-    // imshow("Display window", img);
-    // int k = waitKey(0); // Wait for a keystroke in the window
+    imshow("Display window", img);
+    int k = waitKey(0); // Wait for a keystroke in the window
 
-    if (k == 's') {
-        imwrite("starry_night.png", img);
-    }
+    // if (k == 's') {
+    std::cout << "convertendo: " << image_path << std::endl;
+    imwrite("starry_night.png", img);
+    // }
 }
