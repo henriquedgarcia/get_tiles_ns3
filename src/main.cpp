@@ -97,7 +97,7 @@ void Test::test_predictor() {
 void Test::test_CsvHandler() {}
 
 void Test::test_OpenCV() {
-    std::string image_path = samples::findFile("teste.png");
+    std::string image_path = "teste.png";
     Mat img = imread(image_path, IMREAD_COLOR);
 
     if (img.empty()) {
