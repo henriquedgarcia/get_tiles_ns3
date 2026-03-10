@@ -4,7 +4,8 @@
 #include <vector>
 
 using namespace std;
-// Slerp entre dois pontos unitários
+// Slerp (Spherical linear interpolation) interpolação esférica (linear) entre dois pontos unitários
+// https://en.wikipedia.org/wiki/Spherical_linear_interpolation
 Point3D slerp(const Point3D& p0, const Point3D& p1, double t) {
     double dotp = dot(
         p0, p1); // Angulo entre p0 e p1 (é o quanto andou no grande círculo)
