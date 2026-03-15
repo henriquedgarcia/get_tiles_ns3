@@ -13,6 +13,7 @@
 #define TWO_PI 2 * CV_PI  // 2 * PI
 
 using YawPitchRoll = cv::Vec3d;
+using PointUV = cv::Vec2d;
 
 struct Point3D {
   double x, y, z;
@@ -29,15 +30,6 @@ struct ImagePoint {
   ImagePoint(int m = 0, int n = 0) : m(m), n(n) {}
 
   bool operator==(const ImagePoint& other) const { return m == other.m && n == other.n; }
-};
-
-struct UvPoint {
-  double u;
-  double v;
-
-  UvPoint(double u = 0, double v = 0) : u(u), v(v) {}
-
-  bool operator==(const UvPoint& other) const { return u == other.u && v == other.v; }
 };
 
 struct AePoint {

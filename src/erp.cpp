@@ -3,23 +3,23 @@
 ///////////////////// 2D to 3D conversions /////////////////////
 
 Point3D ERP::mn2xyz(const ImagePoint& mn) const {
-  UvPoint uv = this->mn2uv(mn);
+  PointUV uv = this->mn2uv(mn);
   AePoint ae = this->uv2ae(uv);
   Point3D xyz = this->ae2xyz(ae);
   return xyz;
 };
 
-UvPoint ERP::mn2uv(const ImagePoint& mn) const {
-  UvPoint uv;
-  uv.u = (mn.m + 0.5) / this->resolution.w;
-  uv.v = (mn.n + 0.5) / this->resolution.h;
+PointUV ERP::mn2uv(const ImagePoint& mn) const {
+  PointUV uv;
+  uv[0] = (mn.m + 0.5) / this->resolution.w;
+  uv[1] = (mn.n + 0.5) / this->resolution.h;
   return uv;
 };
 
-AePoint ERP::uv2ae(const UvPoint& uv) const {
+AePoint ERP::uv2ae(const PointUV& uv) const {
   AePoint ae(0., 0.);
-  ae.elevation = uv.v * (-PI) + PI_2;
-  ae.azimuth = uv.u * (2 * PI) - PI;
+  ae.elevation = uv[1] * (-PI) + PI_2;
+  ae.azimuth = uv[0] * (2 * PI) - PI;
   return ae;
 };
 
@@ -38,7 +38,7 @@ Point3D ERP::ae2xyz(const AePoint& ae) const {
 ///////////////////// 3D to 2D conversions /////////////////////
 ImagePoint ERP::xyz2mn(const Point3D& xyz) const {
   AePoint ae = this->xyz2ae(xyz);
-  UvPoint uv = this->ae2uv(ae);
+  PointUV uv = this->ae2uv(ae);
   ImagePoint mn = this->uv2mn(uv);
   return mn;
 };
@@ -53,15 +53,15 @@ AePoint ERP::xyz2ae(const Point3D& xyz) const {
   return AePoint(azimuth, elevation);
 };
 
-UvPoint ERP::ae2uv(const AePoint& ae) const {
+PointUV ERP::ae2uv(const AePoint& ae) const {
   double u = -ae.elevation / PI + 0.5;
   double v = ae.azimuth / (2 * PI) + 0.5;
-  return UvPoint(u, v);
+  return PointUV(u, v);
 };
 
-ImagePoint ERP::uv2mn(const UvPoint& uv) const {
+ImagePoint ERP::uv2mn(const PointUV& uv) const {
   auto [w, h] = this->resolution;
-  int n = uv.v * (h - 1) + 0.5;
-  int m = uv.u * (w - 1) + 0.5;
+  int n = uv[1] * (h - 1) + 0.5;
+  int m = uv[0] * (w - 1) + 0.5;
   return ImagePoint(m, n);
 };
