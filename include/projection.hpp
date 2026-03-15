@@ -6,21 +6,22 @@
 
 #include "types.hpp"
 
-class Projection
-{
-public:
-    Projection(const Resolution &resolution, const Tiling &tiling);
-    std::vector<Tile> tile_list;
-    Resolution resolution;
-    Resolution tile_resolution;
-    Tiling tiling;
-    int n_tiles;
+class Projection {
+ public:
+  Projection(const Resolution& resolution, const Tiling& tiling);
+  virtual ~Projection() = default;
 
-    std::vector<Tile> make_tile_list();
-    std::vector<ImagePoint> get_tile_borders(const Tile &tile);
-    
-    virtual Point3D mn2xyz(const ImagePoint &mn) const = 0;
-    // virtual ImagePoint xyz2mn(const Point3D &xyz) const = 0;
+  std::vector<Tile> tile_list;
+  Resolution resolution;
+  Resolution tile_resolution;
+  Tiling tiling;
+  int n_tiles;
+
+  std::vector<Tile> make_tile_list();
+  std::vector<ImagePoint> get_tile_borders(const Tile& tile);
+
+  virtual Point3D mn2xyz(const ImagePoint& mn) const = 0;
+  virtual ImagePoint xyz2mn(const Point3D& xyz) const = 0;
 };
 
-#endif // PROJECTION_H
+#endif  // PROJECTION_H
