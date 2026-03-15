@@ -39,7 +39,7 @@ void SeenTiles::set_normals_default() {
     this->default_frustrum = frustrum;
 }
 
-vector<Tile> SeenTiles::get_vptiles(YawPitchRoll yaw_pitch_roll) {
+vector<Tile> SeenTiles::get_vptiles(PointYawPitchRoll yaw_pitch_roll) {
     this->yaw_pitch_roll = yaw_pitch_roll;
     vector<Tile> vptiles;
 

@@ -4,15 +4,15 @@
 #include <array>  // std::array
 #include <cmath>
 #include <opencv2/core.hpp>  // CV_PI
-#include <string>   // std::string
-#include <variant>  // std::variant
-#include <vector>   // std::vector
+#include <string>            // std::string
+#include <variant>           // std::variant
+#include <vector>            // std::vector
 
 #define PI CV_PI          // PI
 #define PI_2 CV_PI / 2    // PI / 2
 #define TWO_PI 2 * CV_PI  // 2 * PI
 
-using YawPitchRoll = cv::Vec3d;
+using PointYawPitchRoll = cv::Vec3d;
 using PointUV = cv::Vec2d;
 
 struct Point3D {

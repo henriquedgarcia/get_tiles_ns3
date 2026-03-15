@@ -7,7 +7,7 @@
 
 namespace MatRot {
 
-cv::Mat get_matrix(YawPitchRoll yaw_pitch_roll) {
+cv::Mat get_matrix(PointYawPitchRoll yaw_pitch_roll) {
   /*
   Create rotation matrix using Tait–Bryan angles in Z-Y-X order.
   See Wikipedia. Use:

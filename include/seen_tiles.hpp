@@ -14,7 +14,7 @@ class SeenTiles {
         Frustrum default_frustrum;
         Frustrum rotated_frustrum;
         
-        YawPitchRoll yaw_pitch_roll;
+        PointYawPitchRoll yaw_pitch_roll;
         int n_tiles;
 
         void set_normals_default();
@@ -24,7 +24,7 @@ class SeenTiles {
         
     public:
         SeenTiles(const Fov &fov, const Projection *projection);
-        std::vector<Tile> get_vptiles(YawPitchRoll yaw_pitch_roll);
+        std::vector<Tile> get_vptiles(PointYawPitchRoll yaw_pitch_roll);
 
 };
 
