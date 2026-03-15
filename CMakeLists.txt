@@ -1,10 +1,5 @@
 # --- gcc, cmake, pkg-config, opencv, ffmpeg ---
-
-# No MSYS2 (UCRT64)
-# pacman -Syu
-# pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-gdb mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-pkg-config mingw-w64-ucrt-x86_64-opencv mingw-w64-ucrt-x86_64-ffmpeg 
-
-# No Linux
+# No Linux e WSL
 # sudo apt update
 # sudo apt install build-essential cmake pkg-config libopencv-dev ffmpeg
 
