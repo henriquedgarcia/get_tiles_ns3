@@ -1,90 +1,85 @@
-#include "mat_rot.hpp"
 #include "seen_tiles.hpp"
-#include "types.hpp"
+#include "mat_rot.hpp"
 #include "projection.hpp"
+#include "types.hpp"
+#include "utils.hpp"
 
 #include <array>
-#include <string>
 #include <sstream>
+#include <string>
 #include <vector>
 
 using namespace std;
+using namespace MatRot;
 
-SeenTiles::SeenTiles(const Fov &fov, const Projection *projection)
-{
+SeenTiles::SeenTiles(const Fov& fov, const Projection* projection) {
     this->fov = fov;
     this->projection = projection;
     this->tiling = projection->tiling;
     this->resolution = projection->resolution;
     this->n_tiles = tiling.w * tiling.h;
 
-    double fov_w_2 = fov.fov_x / 2;
-    double fov_h_2 = fov.fov_y / 2;
+    this->set_normals_default();
+}
+
+void SeenTiles::set_normals_default() {
+    double fov_w_2 = this->fov.fov_x / 2;
+    double fov_h_2 = this->fov.fov_y / 2;
     double cos_fov_w = cos(fov_w_2);
     double cos_fov_h = cos(fov_h_2);
     double sin_fov_w = sin(fov_w_2);
     double sin_fov_h = sin(fov_h_2);
 
     // (x, y, z)
-    Frustrum frustrum(
-        Normal(-cos_fov_w, 0.0f, -sin_fov_w), // left
-        Normal(cos_fov_w, 0.0f, -sin_fov_w),  // right
-        Normal(0.0f, -cos_fov_h, -sin_fov_h), // top
-        Normal(0.0f, cos_fov_h, -sin_fov_h)   // bottom
+    Frustrum frustrum(Normal(-cos_fov_w, 0.0f, -sin_fov_w), // left
+                      Normal(cos_fov_w, 0.0f, -sin_fov_w),  // right
+                      Normal(0.0f, -cos_fov_h, -sin_fov_h), // top
+                      Normal(0.0f, cos_fov_h, -sin_fov_h)   // bottom
     );
     this->default_frustrum = frustrum;
 }
 
-vector<Tile> SeenTiles::get_vptiles(ViewportCoord vp_coord)
-{
+vector<Tile> SeenTiles::get_vptiles(ViewportCoord vp_coord) {
     this->vp_coord = vp_coord;
-    Mat3 matrot = MatRot::get_matrix(vp_coord);
-    Frustrum frustrum_rotated = MatRot::rotate_frustrum(this->default_frustrum, matrot);
-
     vector<Tile> vptiles;
 
-    for (int i = 0; i < this->n_tiles; ++i)
-    {
-        if (this->tiling == Tiling(1, 1))
-        {
-            Tile tile(i, this->resolution, ImagePoint(0, 0));
-            vptiles.push_back(tile);
-            continue;
-        }
+    // Se o tiling é 1x1 retorne logo o único tile.
+    if (this->tiling == Tiling(1, 1)) {
+        vptiles.push_back(this->projection->tile_list[0]);
+        return vptiles;
     }
 
-    for (const Tile &tile : this->projection->tile_list)
-    {
-        // para cada ponto da borda do tile
-        //      converter para 3D
-        //      Para cada normal do frustrum_rotated
-        //          fazer o produto vetorial com todas as normais
-        //          Se algum for maior que zero, parar de testar a normal
-        //          testar próxima normal
-        //      se todos os produtos vetoriais deste ponto forem menores que zero (o inside não muda),
-        //          adicionar o tile à lista de vptiles
-        //          parar de testar os pontos deste tile
-        //      testar próximo ponto
+    // Mat3 matrot = get_matrix(vp_coord);
+    // this->rotated_frustrum = rotate_frustrum(this->default_frustrum, matrot);
 
-        bool inside = true;
-        for (const ImagePoint &point : tile.borders)
-        {
-            Point3D xyz = this->projection->mn2xyz(point);
-            for (const Normal &normal : frustrum_rotated.normals)
-            {
-                double prod = normal.x * xyz.x + normal.y * xyz.y + normal.z * xyz.z;
-                if (prod > 0)
-                {
-                    inside = false;
-                    break;
-                }
-            }
-            if (inside)
-            {
-                vptiles.push_back(tile);
-                break;
-            }
+    for (const Tile& tile : this->projection->tile_list) {
+        if (tile_is_in_frustrum(tile)) {
+            vptiles.push_back(tile);
         }
     }
     return vptiles;
+}
+
+bool SeenTiles::tile_is_in_frustrum(Tile tile) {
+    /* Um tile está no frustrum se pelo menos um ponto estiver dentro do
+     * frustrum */
+    for (const ImagePoint& point : tile.borders) {
+        Point3D xyz = this->projection->mn2xyz(point);
+        if (this->is_in(xyz)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool SeenTiles::is_in(Point3D xyz) {
+    /* um ponto está dentro do frustrum se todos os produtos forem menores que
+     * zero */
+    for (const Normal& normal : this->rotated_frustrum.normals) {
+        double prod = dot(normal, xyz);
+        if (prod > 0) {
+            return false;
+        }
+    }
+    return true;
 }
