@@ -12,11 +12,15 @@ class SeenTiles {
         Tiling tiling;
         Resolution resolution;
         Frustrum default_frustrum;
+        Frustrum rotated_frustrum;
         
-        Normal normals_default;
-        Normal normals_rotated;
         ViewportCoord vp_coord;
         int n_tiles;
+
+        void set_normals_default();
+        bool tile_is_in_frustrum(Tile tile);
+        bool is_in(Point3D xyz);
+
         
     public:
         SeenTiles(const Fov &fov, const Projection *projection);
