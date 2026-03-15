@@ -13,7 +13,7 @@ class Test {
   Resolution resolution;
   Tiling tiling;
   Fov fov;
-  ViewportCoord viewport_coord;
+  YawPitchRoll yaw_pitch_roll;
 
   Test();
 

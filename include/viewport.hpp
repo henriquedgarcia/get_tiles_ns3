@@ -22,7 +22,7 @@ class Viewport {
  private:
   cv::Mat xyz_grid_default;
   cv::Mat xyz_grid_rotated;
-  ViewportCoord yaw_pitch_roll;
+  YawPitchRoll yaw_pitch_roll;
 
   void fill_xyz_grid_default();
 
@@ -35,7 +35,7 @@ class Viewport {
            const Fov& fov,
            const Projection* projection);
 
-  cv::Mat extract_viewport(cv::Mat proj_frame, ViewportCoord yaw_pitch_roll);
+  cv::Mat extract_viewport(cv::Mat proj_frame, YawPitchRoll yaw_pitch_roll);
 };
 
 #endif  // VIEWPORT_H

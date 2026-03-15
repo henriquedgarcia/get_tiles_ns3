@@ -6,7 +6,7 @@
 #include "types.hpp"
 
 namespace MatRot {
-cv::Mat get_matrix(ViewportCoord yaw_pitch_roll);
+cv::Mat get_matrix(YawPitchRoll yaw_pitch_roll);
 
 inline Point3D apply_matrix(const cv::Mat& mat, const Point3D& p) {
   /* Apply matrix M to point p */
@@ -28,7 +28,7 @@ inline Frustrum rotate_frustrum(const Frustrum& frustrum, const cv::Mat& mat) {
 
 class MatRot {
 public:
-    static cv::Mat get_matrix(const ViewportCoord& yaw_pitch_roll);
+    static cv::Mat get_matrix(const YawPitchRoll& yaw_pitch_roll);
 
     static Frustrum rotate_frustrum(const Frustrum& frustrum, const cv::Mat& mat) {
         Frustrum rotated = frustrum;

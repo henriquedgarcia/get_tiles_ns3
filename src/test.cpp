@@ -15,7 +15,7 @@ using namespace std;
 Test::Test()
     : resolution(1920, 1080), tiling(6, 4), 
       fov(deg2rad(110.0), deg2rad(90.0)), 
-      viewport_coord(0.0, 1.0, 0.0) {};
+      yaw_pitch_roll(0.0, 1.0, 0.0) {};
 
 void Test::test_Projection() {
   proj = new ERP(this->resolution, this->tiling);
@@ -34,12 +34,12 @@ void Test::test_Projection() {
 
 void Test::test_SeenTiles() {
   SeenTiles seen_tiles(fov, this->proj);
-  std::vector<Tile> vptiles = seen_tiles.get_vptiles(viewport_coord);
+  std::vector<Tile> vptiles = seen_tiles.get_vptiles(yaw_pitch_roll);
 
   // informações sobre os tiles. fazer um loop também.
   cout << "\t" << "fov = " << fov.fov_x << "x" << fov.fov_y << endl;
-  cout << "\t" << "viewport_coord = (yaw=" << viewport_coord.yaw << ", pitch=" << viewport_coord.pitch
-       << ", roll=" << viewport_coord.roll << ")" << endl;
+  cout << "\t" << "yaw_pitch_roll = (yaw=" << yaw_pitch_roll.yaw << ", pitch=" << yaw_pitch_roll.pitch
+       << ", roll=" << yaw_pitch_roll.roll << ")" << endl;
   cout << "\t" << "Number of visible tiles: " << vptiles.size() << endl;
   cout << "\t" << "Visible tiles indices: ";
   for (const Tile& tile : vptiles) {

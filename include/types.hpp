@@ -12,15 +12,7 @@
 #define PI_2 CV_PI / 2    // PI / 2
 #define TWO_PI 2 * CV_PI  // 2 * PI
 
-struct ViewportCoord {
-  double yaw, pitch, roll;
-
-  ViewportCoord(double yaw = 0., double pitch = 0., double roll = 0.) : yaw(yaw), pitch(pitch), roll(roll) {}
-
-  bool operator==(const ViewportCoord& other) const {
-    return yaw == other.yaw && pitch == other.pitch && roll == other.roll;
-  }
-};
+using YawPitchRoll = cv::Vec3d;
 
 struct Point3D {
   double x, y, z;

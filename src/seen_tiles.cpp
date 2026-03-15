@@ -39,8 +39,8 @@ void SeenTiles::set_normals_default() {
     this->default_frustrum = frustrum;
 }
 
-vector<Tile> SeenTiles::get_vptiles(ViewportCoord vp_coord) {
-    this->vp_coord = vp_coord;
+vector<Tile> SeenTiles::get_vptiles(YawPitchRoll yaw_pitch_roll) {
+    this->yaw_pitch_roll = yaw_pitch_roll;
     vector<Tile> vptiles;
 
     // Se o tiling é 1x1 retorne logo o único tile.
@@ -49,7 +49,7 @@ vector<Tile> SeenTiles::get_vptiles(ViewportCoord vp_coord) {
         return vptiles;
     }
 
-    // Mat3 matrot = get_matrix(vp_coord);
+    // Mat3 matrot = get_matrix(yaw_pitch_roll);
     // this->rotated_frustrum = rotate_frustrum(this->default_frustrum, matrot);
 
     for (const Tile& tile : this->projection->tile_list) {
