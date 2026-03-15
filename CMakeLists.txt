@@ -19,9 +19,16 @@ set(SOURCES
     src/mat_rot.cpp
     src/utils.cpp
     src/csv_handler.cpp
+    src/viewport.cpp
+    src/test.cpp
 )
-include_directories(${OpenCV_INCLUDE_DIRS})
-include_directories(${CMAKE_SOURCE_DIR}/include)
+
 add_executable(main ${SOURCES})
+
+target_include_directories(main PRIVATE
+    ${OpenCV_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/include
+)
+
 target_link_libraries(main PRIVATE ${OpenCV_LIBS})
 set_target_properties(main PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
