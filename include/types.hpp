@@ -13,19 +13,19 @@
 #define TWO_PI 2 * CV_PI  // 2 * PI
 
 using PointYawPitchRoll = cv::Vec3d;  // (yaw, pitch, roll) (double)
-using AePoint = cv::Vec2d;      // (azimuth, elevation) (double)
+using AePoint = cv::Vec2d;            // (azimuth, elevation) (double)
 
-using Point3D = cv::Vec3d;      // (x, y, z) (double)
-using PointUV = cv::Vec2d;      // (u, v) (double)
-using PointMN = cv::Vec2w;      // (m, n) (unsingned short int) - 0-65535
+using Point3D = cv::Vec3d;  // (x, y, z) (double)
+using PointUV = cv::Vec2d;  // (u, v) (double)
+using PointMN = cv::Vec2w;  // (m, n) (unsingned short int) - 0-65535
 
-using Resolution = cv::Vec2w;      // (W, H) (unsingned short int) - 0-65535
+using Resolution = cv::Vec2w;  // (W, H) (unsingned short int) - 0-65535
 using Tiling = cv::Vec2b;      // (W, H) (unsingned char) - 0-255
 
-using Fov = cv::Vec2d;      // (fov_x, fov_y) (double)
-
+using Fov = cv::Vec2d;  // (fov_x, fov_y) (double)
 
 using Normal = cv::Vec3d;
+
 
 struct Frustrum {
   std::array<Normal, 4> normals;  // left, right, top, bottom
@@ -46,31 +46,7 @@ struct Tile {
       : index(index), resolution(resolution), position(position), borders(borders) {}
 };
 
-using Mat3 = std::array<std::array<double, 3>, 3>;
 using Field = std::variant<int, double, std::string>;
 using Row = std::vector<Field>;  // A row in a CSV file
-
-// alias para imagem
-struct Color {
-  double r, g, b;
-
-  Color(double r = 0, double g = 0, double b = 0) : r(r), g(g), b(b) {}
-
-  bool operator==(const Color& other) const { return r == other.r && g == other.g && b == other.b; }
-};
-
-struct Pixel {
-  Color color;
-  PointMN im_position;
-  Point3D xyz_position;
-
-  Pixel(Color color, PointMN position) : color(color), im_position(position) {}
-
-  bool operator==(const Pixel& other) const { return color == other.color && im_position == other.im_position; }
-};
-
-using VecDouble = std::vector<double>;
-using Vec3D = std::vector<Point3D>;  // (x, y, z)
-using ImgGrid = std::vector<std::vector<Pixel>>;
 
 #endif  // TYPES_H

@@ -22,9 +22,9 @@ void Test::test_Projection() {
 
   cout << endl << "=======================================" << endl;
   cout << "testing projection" << endl;
-  cout << "\t" << "tiling = " << proj->tiling.h << "x" << proj->tiling.w << endl;
-  cout << "\t" << "resolution = " << proj->resolution.h << "x" << proj->resolution.w << endl;
-  cout << "\t" << "tile resolution = " << proj->tile_resolution.w << "x" << proj->tile_resolution.h << endl;
+  cout << "\t" << "tiling = " << proj->tiling[1] << "x" << proj->tiling[0] << endl;
+  cout << "\t" << "resolution = " << proj->resolution[1] << "x" << proj->resolution[0] << endl;
+  cout << "\t" << "tile resolution = " << proj->tile_resolution[0] << "x" << proj->tile_resolution[1] << endl;
   cout << "\t" << "no. of tiles = " << proj->n_tiles << endl;
   for (const Tile& tile : proj->tile_list) {
     cout << "\t\t" << "Tile index: " << tile.index << ", position: (m=" << tile.position[0] << ", n=" << tile.position[1]
@@ -37,7 +37,7 @@ void Test::test_SeenTiles() {
   std::vector<Tile> vptiles = seen_tiles.get_vptiles(yaw_pitch_roll);
 
   // informações sobre os tiles. fazer um loop também.
-  cout << "\t" << "fov = " << fov.fov_x << "x" << fov.fov_y << endl;
+  cout << "\t" << "fov = " << fov[0] << "x" << fov[1] << endl;
   cout << "\t" << "yaw_pitch_roll = (yaw=" << yaw_pitch_roll[0] << ", pitch=" << yaw_pitch_roll[1]
        << ", roll=" << yaw_pitch_roll[2] << ")" << endl;
   cout << "\t" << "Number of visible tiles: " << vptiles.size() << endl;

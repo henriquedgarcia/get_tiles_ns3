@@ -1,4 +1,5 @@
 #include "erp.hpp"
+
 #include <opencv2/core.hpp>
 ///////////////////// 2D to 3D conversions /////////////////////
 
@@ -11,8 +12,8 @@ Point3D ERP::mn2xyz(const PointMN& mn) const {
 
 PointUV ERP::mn2uv(const PointMN& mn) const {
   PointUV uv;
-  uv[0] = (mn[0] + 0.5) / this->resolution.w;
-  uv[1] = (mn[1] + 0.5) / this->resolution.h;
+  uv[0] = (mn[0] + 0.5) / this->resolution[0];
+  uv[1] = (mn[1] + 0.5) / this->resolution[1];
   return uv;
 };
 
@@ -60,7 +61,8 @@ PointUV ERP::ae2uv(const AePoint& ae) const {
 };
 
 PointMN ERP::uv2mn(const PointUV& uv) const {
-  auto [w, h] = this->resolution;
+  unsigned short int w = this->resolution[0];
+  unsigned short int h = this->resolution[1];
   ushort n = uv[1] * (h - 1) + 0.5;
   ushort m = uv[0] * (w - 1) + 0.5;
   return PointMN(m, n);
