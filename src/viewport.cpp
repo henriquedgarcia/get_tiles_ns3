@@ -1,5 +1,5 @@
 #include "viewport.hpp"
-#include "mat_rot.hpp"
+// #include "mat_rot.hpp"
 #include "types.hpp"
 #include "utils.hpp"
 
@@ -14,7 +14,7 @@ Viewport::Viewport(const Resolution& resolution,
 void Viewport::fill_xyz_grid_default() {
   double tan_fov_y_2 = std::tan(this->fov.fov_y / 2);
   double tan_fov_x_2 = std::tan(this->fov.fov_x / 2);
-  auto [h, w] = this->resolution;
+  auto [w, h] = this->resolution;
 
   cv::Mat y_axis = linspace(-tan_fov_y_2, tan_fov_y_2, h);
   cv::Mat x_axis = linspace(-tan_fov_x_2, tan_fov_x_2, w);
@@ -44,7 +44,7 @@ void Viewport::fill_xyz_grid_default() {
 //         "Input frame shape does not match projection shape");
 //   }
 
-//   ImagePoint nm_coord = this->projection->xyz2mn(this->xyz_grid_default);
+//   PointMN nm_coord = this->projection->xyz2mn(this->xyz_grid_default);
 //   Mat3 matrot = get_matrix(this->yaw_pitch_roll);
 //   cv::Mat rotated_xyz = applyRotation(this->xyz_grid_default, matrot);
 //   // Extrai colunas equivalentes ao slicing Python

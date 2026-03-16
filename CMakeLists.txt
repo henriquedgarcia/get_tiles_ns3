@@ -16,9 +16,9 @@ set(SOURCES
     src/projection.cpp
     src/erp.cpp
     src/seen_tiles.cpp
-    src/mat_rot.cpp
+    # src/mat_rot.cpp
     src/utils.cpp
-    src/csv_handler.cpp
+    # src/csv_handler.cpp
     src/viewport.cpp
     src/test.cpp
 )

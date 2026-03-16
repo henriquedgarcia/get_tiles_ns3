@@ -18,10 +18,10 @@ class Projection {
   int n_tiles;
 
   std::vector<Tile> make_tile_list();
-  std::vector<ImagePoint> get_tile_borders(const Tile& tile);
+  std::vector<PointMN> get_tile_borders(const Tile& tile);
 
-  virtual Point3D mn2xyz(const ImagePoint& mn) const = 0;
-  virtual ImagePoint xyz2mn(const Point3D& xyz) const = 0;
+  virtual Point3D mn2xyz(const PointMN& mn) const = 0;
+  virtual PointMN xyz2mn(const Point3D& xyz) const = 0;
 };
 
 #endif  // PROJECTION_H

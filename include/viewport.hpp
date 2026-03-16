@@ -14,8 +14,8 @@ class Imagem;
 
 // class GnomonicProjection : public Projection {
 //  public:
-//   Point3D mn2xyz(const ImagePoint& mn) const override;
-//   // ImagePoint xyz2mn(const Point3D &xyz) const override;
+//   Point3D mn2xyz(const PointMN& mn) const override;
+//   // PointMN xyz2mn(const Point3D &xyz) const override;
 // };
 
 class Viewport {

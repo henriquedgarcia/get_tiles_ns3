@@ -2,24 +2,24 @@
 #include <opencv2/core.hpp>
 ///////////////////// 2D to 3D conversions /////////////////////
 
-Point3D ERP::mn2xyz(const ImagePoint& mn) const {
+Point3D ERP::mn2xyz(const PointMN& mn) const {
   PointUV uv = this->mn2uv(mn);
   AePoint ae = this->uv2ae(uv);
   Point3D xyz = this->ae2xyz(ae);
   return xyz;
 };
 
-PointUV ERP::mn2uv(const ImagePoint& mn) const {
+PointUV ERP::mn2uv(const PointMN& mn) const {
   PointUV uv;
-  uv[0] = (mn.m + 0.5) / this->resolution.w;
-  uv[1] = (mn.n + 0.5) / this->resolution.h;
+  uv[0] = (mn[0] + 0.5) / this->resolution.w;
+  uv[1] = (mn[1] + 0.5) / this->resolution.h;
   return uv;
 };
 
 AePoint ERP::uv2ae(const PointUV& uv) const {
   AePoint ae(0., 0.);
-  ae.elevation = uv[1] * (-PI) + PI_2;
-  ae.azimuth = uv[0] * (2 * PI) - PI;
+  ae[0] = uv[1] * (-PI) + PI_2;
+  ae[1] = uv[0] * (2 * PI) - PI;
   return ae;
 };
 
@@ -29,17 +29,17 @@ Point3D ERP::ae2xyz(const AePoint& ae) const {
   // projection format conversion and video quality metrics in 360Lib Version 5
 
   Point3D xyz(0., 0., 0.);
-  xyz[0] = cos(ae.azimuth) * sin(ae.elevation);
-  xyz[1] = -sin(ae.azimuth);
-  xyz[2] = cos(ae.azimuth) * cos(ae.elevation);
+  xyz[0] = cos(ae[0]) * sin(ae[1]);
+  xyz[1] = -sin(ae[0]);
+  xyz[2] = cos(ae[0]) * cos(ae[1]);
   return xyz;
 };
 
 ///////////////////// 3D to 2D conversions /////////////////////
-ImagePoint ERP::xyz2mn(const Point3D& xyz) const {
+PointMN ERP::xyz2mn(const Point3D& xyz) const {
   AePoint ae = this->xyz2ae(xyz);
   PointUV uv = this->ae2uv(ae);
-  ImagePoint mn = this->uv2mn(uv);
+  PointMN mn = this->uv2mn(uv);
   return mn;
 };
 
@@ -54,14 +54,14 @@ AePoint ERP::xyz2ae(const Point3D& xyz) const {
 };
 
 PointUV ERP::ae2uv(const AePoint& ae) const {
-  double u = -ae.elevation / PI + 0.5;
-  double v = ae.azimuth / (2 * PI) + 0.5;
+  double u = -ae[1] / PI + 0.5;
+  double v = ae[0] / (2 * PI) + 0.5;
   return PointUV(u, v);
 };
 
-ImagePoint ERP::uv2mn(const PointUV& uv) const {
+PointMN ERP::uv2mn(const PointUV& uv) const {
   auto [w, h] = this->resolution;
-  int n = uv[1] * (h - 1) + 0.5;
-  int m = uv[0] * (w - 1) + 0.5;
-  return ImagePoint(m, n);
+  ushort n = uv[1] * (h - 1) + 0.5;
+  ushort m = uv[0] * (w - 1) + 0.5;
+  return PointMN(m, n);
 };

@@ -12,54 +12,20 @@
 #define PI_2 CV_PI / 2    // PI / 2
 #define TWO_PI 2 * CV_PI  // 2 * PI
 
-using PointYawPitchRoll = cv::Vec3d;
-using PointUV = cv::Vec2d;
-using Point3D = cv::Vec3d;
+using PointYawPitchRoll = cv::Vec3d;  // (yaw, pitch, roll) (double)
+using AePoint = cv::Vec2d;      // (azimuth, elevation) (double)
 
-struct ImagePoint {
-  int m;
-  int n;
+using Point3D = cv::Vec3d;      // (x, y, z) (double)
+using PointUV = cv::Vec2d;      // (u, v) (double)
+using PointMN = cv::Vec2w;      // (m, n) (unsingned short int) - 0-65535
 
-  ImagePoint(int m = 0, int n = 0) : m(m), n(n) {}
+using Resolution = cv::Vec2w;      // (W, H) (unsingned short int) - 0-65535
+using Tiling = cv::Vec2b;      // (W, H) (unsingned char) - 0-255
 
-  bool operator==(const ImagePoint& other) const { return m == other.m && n == other.n; }
-};
+using Fov = cv::Vec2d;      // (fov_x, fov_y) (double)
 
-struct AePoint {
-  double azimuth;
-  double elevation;
 
-  AePoint(double azimuth = 0.0f, double elevation = 0.0f) : azimuth(azimuth), elevation(elevation) {}
-
-  bool operator==(const AePoint& other) const {
-    return this->azimuth == other.azimuth && this->elevation == other.elevation;
-  }
-};
-
-struct Resolution {
-  int w;
-  int h;
-
-  Resolution(int w = 0, int h = 0) : w(w), h(h) {}
-
-  bool operator==(const Resolution& other) const { return w == other.w && h == other.h; }
-
-  bool operator!=(const Resolution& other) const { return !(*this == other); }
-};
-
-using Tiling = Resolution;
-
-struct Fov {
-  // Fov em radianos
-  double fov_x;
-  double fov_y;
-
-  Fov(double fov_x = 0.0, double fov_y = 0.0) : fov_x(fov_x), fov_y(fov_y) {}
-
-  bool operator==(const Fov& other) const { return fov_x == other.fov_x && fov_y == other.fov_y; }
-};
-
-using Normal = Point3D;
+using Normal = cv::Vec3d;
 
 struct Frustrum {
   std::array<Normal, 4> normals;  // left, right, top, bottom
@@ -73,16 +39,15 @@ struct Frustrum {
 struct Tile {
   int index;
   Resolution resolution;
-  ImagePoint position;
-  std::vector<ImagePoint> borders;
+  PointMN position;
+  std::vector<PointMN> borders;
 
-  Tile(int index, const Resolution& resolution, const ImagePoint& position, const std::vector<ImagePoint>& borders = {})
+  Tile(int index, const Resolution& resolution, const PointMN& position, const std::vector<PointMN>& borders = {})
       : index(index), resolution(resolution), position(position), borders(borders) {}
 };
 
 using Mat3 = std::array<std::array<double, 3>, 3>;
 using Field = std::variant<int, double, std::string>;
-enum class Exception { FILE_NOT_FOUND };
 using Row = std::vector<Field>;  // A row in a CSV file
 
 // alias para imagem
@@ -96,10 +61,10 @@ struct Color {
 
 struct Pixel {
   Color color;
-  ImagePoint im_position;
+  PointMN im_position;
   Point3D xyz_position;
 
-  Pixel(Color color, ImagePoint position) : color(color), im_position(position) {}
+  Pixel(Color color, PointMN position) : color(color), im_position(position) {}
 
   bool operator==(const Pixel& other) const { return color == other.color && im_position == other.im_position; }
 };

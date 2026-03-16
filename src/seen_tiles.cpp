@@ -1,5 +1,5 @@
 #include "seen_tiles.hpp"
-#include "mat_rot.hpp"
+// #include "mat_rot.hpp"
 #include "projection.hpp"
 #include "types.hpp"
 #include "utils.hpp"
@@ -10,21 +10,21 @@
 #include <vector>
 
 using namespace std;
-using namespace MatRot;
+// using namespace MatRot;
 
 SeenTiles::SeenTiles(const Fov& fov, const Projection* projection) {
     this->fov = fov;
     this->projection = projection;
     this->tiling = projection->tiling;
     this->resolution = projection->resolution;
-    this->n_tiles = tiling.w * tiling.h;
+    this->n_tiles = tiling[0] * tiling[1];
 
     this->set_normals_default();
 }
 
 void SeenTiles::set_normals_default() {
-    double fov_w_2 = this->fov.fov_x / 2;
-    double fov_h_2 = this->fov.fov_y / 2;
+    double fov_w_2 = this->fov[0] / 2;
+    double fov_h_2 = this->fov[1] / 2;
     double cos_fov_w = cos(fov_w_2);
     double cos_fov_h = cos(fov_h_2);
     double sin_fov_w = sin(fov_w_2);
@@ -63,7 +63,7 @@ vector<Tile> SeenTiles::get_vptiles(PointYawPitchRoll yaw_pitch_roll) {
 bool SeenTiles::tile_is_in_frustrum(Tile tile) {
     /* Um tile está no frustrum se pelo menos um ponto estiver dentro do
      * frustrum */
-    for (const ImagePoint& point : tile.borders) {
+    for (const PointMN& point : tile.borders) {
         Point3D xyz = this->projection->mn2xyz(point);
         if (this->is_in(xyz)) {
             return true;

@@ -35,9 +35,9 @@ std::vector<Point3D> predict_future(const std::vector<Point3D>& data,
   // extrair cada coordenada
   std::vector<double> xs(n_input), ys(n_input), zs(n_input);
   for (int i = 0; i < n_input; ++i) {
-    xs[i] = data[i].x;
-    ys[i] = data[i].y;
-    zs[i] = data[i].z;
+    xs[i] = data[i][0];
+    ys[i] = data[i][1];
+    zs[i] = data[i][2];
   }
 
   // regressão linear separada

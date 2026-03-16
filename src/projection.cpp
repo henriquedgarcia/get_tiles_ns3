@@ -7,9 +7,9 @@ using namespace std;
 Projection::Projection(const Resolution &resolution, const Tiling &tiling)
     : resolution(resolution), tiling(tiling)
 {
-    this->n_tiles = tiling.w * tiling.h;
-    this->tile_resolution.w = resolution.w / tiling.w;
-    this->tile_resolution.h = resolution.h / tiling.h;
+    this->n_tiles = tiling[0] * tiling[1];
+    this->tile_resolution[0] = resolution[0] / tiling[0];
+    this->tile_resolution[1] = resolution[1] / tiling[1];
     this->tile_list = this->make_tile_list();
 }
 
@@ -18,12 +18,12 @@ vector<Tile> Projection::make_tile_list()
     int index = 0;
     vector<Tile> vptiles;
 
-    for (int h = 0; h < this->tiling.h; h++)
+    for (int h = 0; h < this->tiling[1]; h++)
     {
-        for (int w = 0; w < this->tiling.w; w++)
+        for (int w = 0; w < this->tiling[0]; w++)
         {
-            ImagePoint position(w * (this->tile_resolution.w),
-                                h * (this->tile_resolution.h));
+            PointMN position(w * (this->tile_resolution[0]),
+                                h * (this->tile_resolution[1]));
             Tile tile(index, this->tile_resolution, position);
             tile.borders = this->get_tile_borders(tile);
             vptiles.push_back(tile);
@@ -33,25 +33,25 @@ vector<Tile> Projection::make_tile_list()
     return vptiles;
 }
 
-vector<ImagePoint> Projection::get_tile_borders(const Tile &tile)
+vector<PointMN> Projection::get_tile_borders(const Tile &tile)
 {
-    vector<ImagePoint> borders;
+    vector<PointMN> borders;
 
-    int left_x = tile.position.m;
-    int right_x = tile.position.m + tile.resolution.w;
+    int left_x = tile.position[0];
+    int right_x = tile.position[0] + tile.resolution[0];
 
-    int top_y = tile.position.n;
-    int bottom_y = tile.position.n + tile.resolution.h;
+    int top_y = tile.position[1];
+    int bottom_y = tile.position[1] + tile.resolution[1];
 
     for (int x = left_x; x < right_x; x++)
     {
-        borders.push_back(ImagePoint(x, top_y));    // Top edge
-        borders.push_back(ImagePoint(x, bottom_y)); // Bottom edge
+        borders.push_back(PointMN(x, top_y));    // Top edge
+        borders.push_back(PointMN(x, bottom_y)); // Bottom edge
     }
     for (int y = top_y; y < bottom_y; y++)
     {
-        borders.push_back(ImagePoint(left_x, y));  // Left edge
-        borders.push_back(ImagePoint(right_x, y)); // Right edge
+        borders.push_back(PointMN(left_x, y));  // Left edge
+        borders.push_back(PointMN(right_x, y)); // Right edge
     }
 
     return borders;

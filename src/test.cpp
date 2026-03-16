@@ -27,7 +27,7 @@ void Test::test_Projection() {
   cout << "\t" << "tile resolution = " << proj->tile_resolution.w << "x" << proj->tile_resolution.h << endl;
   cout << "\t" << "no. of tiles = " << proj->n_tiles << endl;
   for (const Tile& tile : proj->tile_list) {
-    cout << "\t\t" << "Tile index: " << tile.index << ", position: (m=" << tile.position.m << ", n=" << tile.position.n
+    cout << "\t\t" << "Tile index: " << tile.index << ", position: (m=" << tile.position[0] << ", n=" << tile.position[1]
          << "), borders len = " << tile.borders.size() << endl;
   }
 };
@@ -38,8 +38,8 @@ void Test::test_SeenTiles() {
 
   // informações sobre os tiles. fazer um loop também.
   cout << "\t" << "fov = " << fov.fov_x << "x" << fov.fov_y << endl;
-  cout << "\t" << "yaw_pitch_roll = (yaw=" << yaw_pitch_roll.yaw << ", pitch=" << yaw_pitch_roll.pitch
-       << ", roll=" << yaw_pitch_roll.roll << ")" << endl;
+  cout << "\t" << "yaw_pitch_roll = (yaw=" << yaw_pitch_roll[0] << ", pitch=" << yaw_pitch_roll[1]
+       << ", roll=" << yaw_pitch_roll[2] << ")" << endl;
   cout << "\t" << "Number of visible tiles: " << vptiles.size() << endl;
   cout << "\t" << "Visible tiles indices: ";
   for (const Tile& tile : vptiles) {
@@ -59,7 +59,7 @@ void Test::test_predictor() {
   auto future = predict_future(data, 10);  // prever os próximos 10 pontos
 
   for (const auto& p : future) {
-    std::cout << p.x << ", " << p.y << ", " << p.z << "\n";
+    // std::cout << p.x << ", " << p.y << ", " << p.z << "\n";
   }
 };
 

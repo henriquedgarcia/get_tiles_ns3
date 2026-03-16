@@ -9,24 +9,15 @@
 
 #include "types.hpp"  // Point3D
 
-inline double deg2rad(double deg) {
-  return deg * std::numbers::pi / 180.0;
-}
+inline double deg2rad(double deg) { return deg * std::numbers::pi / 180.0; }
 
-inline double rad2deg(double rad) {
-  return rad * 180.0 / std::numbers::pi;
-}
+inline double rad2deg(double rad) { return rad * 180.0 / std::numbers::pi; }
 
-inline Point3D normalize(Point3D p) {
-  return cv::normalize(p);
-}
+inline Point3D normalize(Point3D p) { return cv::normalize(p); }
 
-inline double dot(const Point3D& a, const Point3D& b) {
-  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-}
+inline double dot(const Point3D& a, const Point3D& b) { return a.dot(b); }
 
-std::vector<Point3D> predict_future(const std::vector<Point3D>& data,
-                                    int n_future = 30);
+std::vector<Point3D> predict_future(const std::vector<Point3D>& data, int n_future = 30);
 
 std::pair<double, double> linear_regression(const std::vector<double>& y);
 
