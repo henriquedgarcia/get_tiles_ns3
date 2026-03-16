@@ -29,9 +29,9 @@ Point3D ERP::ae2xyz(const AePoint& ae) const {
   // projection format conversion and video quality metrics in 360Lib Version 5
 
   Point3D xyz(0., 0., 0.);
-  xyz.x = cos(ae.azimuth) * sin(ae.elevation);
-  xyz.y = -sin(ae.azimuth);
-  xyz.z = cos(ae.azimuth) * cos(ae.elevation);
+  xyz[0] = cos(ae.azimuth) * sin(ae.elevation);
+  xyz[1] = -sin(ae.azimuth);
+  xyz[2] = cos(ae.azimuth) * cos(ae.elevation);
   return xyz;
 };
 
@@ -44,11 +44,11 @@ ImagePoint ERP::xyz2mn(const Point3D& xyz) const {
 };
 
 AePoint ERP::xyz2ae(const Point3D& xyz) const {
-  cv::Vec3d vec_xyz(xyz.x, xyz.y, xyz.z);
+  cv::Vec3d vec_xyz(xyz[0], xyz[1], xyz[2]);
 
   double r = cv::norm(vec_xyz);
-  double elevation = asin(xyz.y / r);
-  double azimuth = atan2(-xyz.x, -xyz.z);
+  double elevation = asin(xyz[1] / r);
+  double azimuth = atan2(-xyz[0], -xyz[2]);
   azimuth = fmod(azimuth + CV_PI, 2 * CV_PI) - CV_PI;
   return AePoint(azimuth, elevation);
 };

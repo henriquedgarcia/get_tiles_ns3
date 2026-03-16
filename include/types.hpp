@@ -14,14 +14,7 @@
 
 using PointYawPitchRoll = cv::Vec3d;
 using PointUV = cv::Vec2d;
-
-struct Point3D {
-  double x, y, z;
-
-  Point3D(double x = 0, double y = 0, double z = 0) : x(x), y(y), z(z) {}
-
-  bool operator==(const Point3D& other) const { return x == other.x && y == other.y && z == other.z; }
-};
+using Point3D = cv::Vec3d;
 
 struct ImagePoint {
   int m;

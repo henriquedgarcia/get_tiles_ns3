@@ -18,12 +18,11 @@ inline double rad2deg(double rad) {
 }
 
 inline Point3D normalize(Point3D p) {
-  double norm = std::sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
-  return {p.x / norm, p.y / norm, p.z / norm};
+  return cv::normalize(p);
 }
 
 inline double dot(const Point3D& a, const Point3D& b) {
-  return a.x * b.x + a.y * b.y + a.z * b.z;
+  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 }
 
 std::vector<Point3D> predict_future(const std::vector<Point3D>& data,
