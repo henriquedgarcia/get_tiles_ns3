@@ -21,7 +21,7 @@ std::vector<Point3D> predict_future(const std::vector<Point3D>& data, int n_futu
 
 std::pair<double, double> linear_regression(const std::vector<double>& y);
 
-cv::Mat linspace(const double start, const double end, const int num_points);
+std::vector<double> linspace(const double start, const double end, const int num_points);
 cv::Mat applyRotation(const cv::Mat& points, const cv::Mat& R);
 
 #endif  // UTILS_H
