@@ -23,5 +23,10 @@ PackConstructorInitializers : Never
 
 AllowAllArgumentsOnNextLine  : false
 AllowAllParametersOfDeclarationOnNextLine : false
+<!-- AlignAfterOpenBracket : false -->
 SeparateDefinitionBlocks : Always
 IncludeBlocks : Merge
+BreakBeforeBinaryOperators : All 
+AlignOperands : true
+
+BreakBinaryOperations  : OnePerLine
