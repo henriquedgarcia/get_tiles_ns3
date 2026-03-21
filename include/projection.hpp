@@ -3,25 +3,26 @@
 
 #include <string>
 #include <vector>
-
 #include "types.hpp"
 
 class Projection {
  public:
-  Projection(const Resolution& resolution, const Tiling& tiling);
-  virtual ~Projection() = default;
-
   std::vector<Tile> tile_list;
   Resolution resolution;
-  Resolution tile_resolution;
   Tiling tiling;
-  int n_tiles;
+  Resolution tile_resolution;
+  uchar n_tiles;
 
-  std::vector<Tile> make_tile_list();
-  std::vector<PointMN> get_tile_borders(const Tile& tile);
+  Projection(const Resolution& resolution,
+             const Tiling& tiling);
 
-  virtual Point3D mn2xyz(const PointMN& mn) const = 0;
+  virtual Point3D mn2xyz(const PointMN& mn) const  = 0;
   virtual PointMN xyz2mn(const Point3D& xyz) const = 0;
+  virtual ~Projection()                            = default;
+
+ protected:
+  void make_tile_list();
+  static std::vector<PointMN> get_tile_borders(const Tile& tile);
 };
 
 #endif  // PROJECTION_H
