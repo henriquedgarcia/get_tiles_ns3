@@ -1,77 +1,93 @@
 #include "viewport.hpp"
-// #include "mat_rot.hpp"
+#include <opencv2/core/quaternion.hpp>
 #include "types.hpp"
 #include "utils.hpp"
 
-Viewport::Viewport(const Resolution& resolution, const Fov& fov, const Projection* projection)
-    : resolution(resolution), fov(fov), projection(projection) {
+Viewport::Viewport(const Resolution& resolution,
+                   const Fov& fov,
+                   const Projection* projection)
+    : resolution(resolution),
+      fov(fov),
+      projection(projection) {
   this->yaw_pitch_roll = {0., 0., 0.};
   this->fill_xyz_grid_default();
 }
 
 void Viewport::fill_xyz_grid_default() {
-  double tan_fov_y_2 = std::tan(this->fov[1] / 2);
-  double tan_fov_x_2 = std::tan(this->fov[0] / 2);
   int w = this->resolution[0];
   int h = this->resolution[1];
 
-  cv::Mat y_axis = linspace(-tan_fov_y_2, tan_fov_y_2, h);
-  cv::Mat x_axis = linspace(-tan_fov_x_2, tan_fov_x_2, w);
+  double tan_fov_y_2 = std::tan(this->fov[1] / 2);
+  double tan_fov_x_2 = std::tan(this->fov[0] / 2);
 
-  this->xyz_grid_default = cv::Mat(h, w, CV_64FC3);
-  for (int j = 0; j < h; j++) {
-    for (int i = 0; i < w; i++) {
-      cv::Vec3d xyz_coord(x_axis.at<double>(0, i), y_axis.at<double>(0, j), 1.0);
-      cv::Vec3d xyz_coord_normalized = xyz_coord / cv::norm(xyz_coord);
-      this->xyz_grid_default.at<cv::Vec3d>(j, i) = xyz_coord_normalized;
+  std::vector<double> y_axis = linspace(-tan_fov_y_2, tan_fov_y_2, h);
+  std::vector<double> x_axis = linspace(-tan_fov_x_2, tan_fov_x_2, w);
+
+  this->xyz_grid_default = GridPoint3D(h, w);
+
+  for (auto& y : y_axis) {
+    for (auto& x : x_axis) {
+      Point3D xyz_coord(x, y, 1.0);
+      Point3D xyz_coord_normalized = xyz_coord / cv::norm(xyz_coord);
+      this->xyz_grid_default(y, x) = xyz_coord_normalized;
     }
   }
 }
-// cv::Mat Viewport::rotate_viewport() {
-//   this->rotated_frustrum = rotate_frustrum(this->default_frustrum, matrot);
-// }
 
-// cv::Mat Viewport::extract_viewport(cv::Mat proj_frame,
-//                                    ViewportCoord yaw_pitch_roll) {
-//   this->yaw_pitch_roll = yaw_pitch_roll;
-//   cv::Mat result = proj_frame.clone();
-//   Resolution proj_frame_res(proj_frame.cols, proj_frame.rows);
+void Viewport::rotate_viewport() {
+  // need yaw_pitch_roll and xyz_grid_default
+  this->xyz_grid_rotated = this->xyz_grid_default.clone();
+  int rows               = this->xyz_grid_default.rows;
+  int cols               = this->xyz_grid_default.cols;
 
-//   if (!(proj_frame_res == this->projection->resolution)) {
-//     throw std::invalid_argument(
-//         "Input frame shape does not match projection shape");
-//   }
+  cv::Quatd q1 = cv::Quatd::createFromAngleAxis(this->yaw_pitch_roll[0],
+                                                AXIS_X);  // x
+  cv::Quatd q2 = cv::Quatd::createFromAngleAxis(this->yaw_pitch_roll[1],
+                                                AXIS_Y);  // y
+  cv::Quatd q3 = cv::Quatd::createFromAngleAxis(this->yaw_pitch_roll[2],
+                                                AXIS_Z);  // z
 
-//   PointMN nm_coord = this->projection->xyz2mn(this->xyz_grid_default);
-//   Mat3 matrot = get_matrix(this->yaw_pitch_roll);
-//   cv::Mat rotated_xyz = applyRotation(this->xyz_grid_default, matrot);
-//   // Extrai colunas equivalentes ao slicing Python
-//   cv::Mat map1, map2;
-//   nm_coord.col(1).convertTo(map1, CV_64F);
-//   nm_coord.col(0).convertTo(map2, CV_64F);
+  cv::Quatd quat_final = q3 * q1 * q2;
 
-//   cv::Mat vp_img;
-//   cv::remap(proj_frame, vp_img, map1, map2, cv::INTER_LINEAR, cv::BORDER_WRAP);
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      cv::Quatd q_vector           = cv::Quatd(0,
+                                     this->xyz_grid_default(i, j)[0],
+                                     this->xyz_grid_default(i, j)[1],
+                                     this->xyz_grid_default(i, j)[2]);
+      cv::Quatd q_conjugate        = quat_final.conjugate();
+      cv::Quatd result             = quat_final * q_vector * q_conjugate;
+      this->xyz_grid_rotated(i, j) = cv::Vec3d(result.x, result.y, result.z);
+    }
+  }
+}
 
-//   return vp_img;
+cv::Mat Viewport::extract_viewport(cv::Mat proj_frame,
+                                   PointYawPitchRoll yaw_pitch_roll) {
+  Resolution proj_frame_res(proj_frame.cols, proj_frame.rows);
+  if (!(proj_frame_res == this->projection->resolution)) {
+    throw std::invalid_argument(
+        "Input frame shape does not match projection shape");
+  }
 
-//   /*
-//     if tuple(proj_frame.shape)[:2] != tuple(self.projection.shape)[:2]:
-//         raise ValueError(f"Input frame shape {tuple(proj_frame.shape)[:2]} does
-//     not match projection shape {tuple(self.projection.shape)[:2]}")
+  this->yaw_pitch_roll = yaw_pitch_roll;
+  this->rotate_viewport();
 
-//     if self.projection is None:
-//       raise ProjectionError('Projection is not defined.')
+  GridPointMN mn_coord(this->xyz_grid_rotated.rows,
+                       this->xyz_grid_rotated.cols);
 
-//       if yaw_pitch_roll is not None:
-//         self.yaw_pitch_roll = yaw_pitch_roll
+  for (int i = 0; i < this->xyz_grid_rotated.rows; i++) {
+    for (int j = 0; j < this->xyz_grid_rotated.cols; j++) {
+      mn_coord(i, j) = this->projection->xyz2mn(this->xyz_grid_rotated(i, j));
+    }
+  }
 
-//     nm_coord = self.projection.xyz2nm(self.xyz)
-//     nm_coord = nm_coord.transpose((1, 2, 0))
-//     vp_img = cv2.remap(proj_frame, map1=nm_coord[..., 1:2].astype(np.float32),
-//                         map2=nm_coord[..., 0:1].astype(np.float32),
-//     interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_WRAP) # show(vp_img)
-//     return vp_img
-//   */
-//   return result;
-// }
+  cv::Mat map1, map2;
+  mn_coord.col(1).convertTo(map1, CV_64F);  // mapa do X
+  mn_coord.col(0).convertTo(map2, CV_64F);  // mapa do Y
+
+  cv::Mat vp_img;
+  cv::remap(proj_frame, vp_img, map1, map2, cv::INTER_LINEAR, cv::BORDER_WRAP);
+
+  return vp_img;
+}
