@@ -1,5 +1,5 @@
-#include "test.hpp"
 #include <iostream>
+#include "test.hpp"
 
 int main() {
   Test test;
@@ -13,4 +13,3 @@ int main() {
 }
 
 // Declarações dos testes
-
