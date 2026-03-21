@@ -25,16 +25,6 @@ using Normal            = cv::Vec3d;
 using GridPoint3D = cv::Mat_<Point3D>;
 using GridPointMN = cv::Mat_<PointMN>;
 
-cv::Vec3d AXIS_X(1,
-                 0,
-                 0);  // eixo x
-cv::Vec3d AXIS_Y(0,
-                 1,
-                 0);  // eixo y
-cv::Vec3d AXIS_Z(0,
-                 0,
-                 1);  // eixo z
-
 struct Frustrum {
   std::array<Normal, 4> normals;  // left, right, top, bottom
 
