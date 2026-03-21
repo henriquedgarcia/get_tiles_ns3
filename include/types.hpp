@@ -41,6 +41,7 @@ struct Tile {
   Resolution resolution;
   PointMN position;
   std::vector<PointMN> borders;
+  std::vector<Point3D> borders_xyz;
 
   Tile(int index, const Resolution& resolution, const PointMN& position, const std::vector<PointMN>& borders = {})
       : index(index), resolution(resolution), position(position), borders(borders) {}
