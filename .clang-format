@@ -2,9 +2,26 @@ BasedOnStyle: Google
 <!-- IndentWidth: 4 -->
 ---
 Language: Cpp
+
 # Force pointers to the type for C++.
-<!-- DerivePointerAlignment: false -->
-<!-- PointerAlignment: Left -->
-ColumnLimit: 120
+DerivePointerAlignment: false
+PointerAlignment: Left
+ColumnLimit: 80
+AlignAfterOpenBracket: true
 
+AlignConsecutiveAssignments:
+  Enabled: true
+  Consecutive: true
+  AcrossEmptyLines: false
+  AcrossComments: true
+  AlignFunctionDeclarations : true
+  AlignCompound : true
 
+BinPackArguments : false
+BinPackParameters: AlwaysOnePerLine
+PackConstructorInitializers : Never
+
+AllowAllArgumentsOnNextLine  : false
+AllowAllParametersOfDeclarationOnNextLine : false
+SeparateDefinitionBlocks : Always
+IncludeBlocks : Merge
