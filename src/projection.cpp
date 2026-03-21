@@ -26,11 +26,11 @@ void Projection::make_tile_list() {
                        h * (this->tile_resolution[1]));
       Tile tile(index, this->tile_resolution, position);
       tile.borders = this->get_tile_borders(tile);
-    
+
       vector<Point3D> xyz_points;
-      for(const auto& border : tile.borders) {
+      for (const auto& border : tile.borders) {
         xyz_points.push_back(this->mn2xyz(border));
-      } 
+      }
       tile.borders_xyz = xyz_points;
 
       vptiles.push_back(tile);
