@@ -1,34 +1,68 @@
+#include "test.hpp"
 #include <filesystem>
 #include <iostream>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgcodecs.hpp>
-
 #include "erp.hpp"
 #include "seen_tiles.hpp"
 #include "types.hpp"
 #include "utils.hpp"
-#include "test.hpp"
 
 using namespace std;
 
 Test::Test()
-    : resolution(1920, 1080), tiling(6, 4), 
-      fov(deg2rad(110.0), deg2rad(90.0)), 
-      yaw_pitch_roll(0.0, 1.0, 0.0) {};
+    : resolution(1920,
+                 1080),
+      tiling(6,
+             4),
+      fov(deg2rad(110.0),
+          deg2rad(90.0)),
+      yaw_pitch_roll(0.0,
+                     1.0,
+                     0.0) {};
 
 void Test::test_Projection() {
   proj = new ERP(this->resolution, this->tiling);
+  proj->make_tile_list();
 
   cout << endl << "=======================================" << endl;
   cout << "testing projection" << endl;
-  cout << "\t" << "tiling = " << proj->tiling[1] << "x" << proj->tiling[0] << endl;
-  cout << "\t" << "resolution = " << proj->resolution[1] << "x" << proj->resolution[0] << endl;
-  cout << "\t" << "tile resolution = " << proj->tile_resolution[0] << "x" << proj->tile_resolution[1] << endl;
+  cout
+      << "\t"
+      << "tiling = "
+      << proj->tiling[1]
+      << "x"
+      << proj->tiling[0]
+      << endl;
+  cout
+      << "\t"
+      << "resolution = "
+      << proj->resolution[1]
+      << "x"
+      << proj->resolution[0]
+      << endl;
+  cout
+      << "\t"
+      << "tile resolution = "
+      << proj->tile_resolution[0]
+      << "x"
+      << proj->tile_resolution[1]
+      << endl;
   cout << "\t" << "no. of tiles = " << proj->n_tiles << endl;
+  
   for (const Tile& tile : proj->tile_list) {
-    cout << "\t\t" << "Tile index: " << tile.index << ", position: (m=" << tile.position[0] << ", n=" << tile.position[1]
-         << "), borders len = " << tile.borders.size() << endl;
+    cout
+        << "\t\t"
+        << "Tile index: "
+        << tile.index
+        << ", position: (m="
+        << tile.position[0]
+        << ", n="
+        << tile.position[1]
+        << "), borders len = "
+        << tile.borders.size()
+        << endl;
   }
 };
 
@@ -38,8 +72,16 @@ void Test::test_SeenTiles() {
 
   // informações sobre os tiles. fazer um loop também.
   cout << "\t" << "fov = " << fov[0] << "x" << fov[1] << endl;
-  cout << "\t" << "yaw_pitch_roll = (yaw=" << yaw_pitch_roll[0] << ", pitch=" << yaw_pitch_roll[1]
-       << ", roll=" << yaw_pitch_roll[2] << ")" << endl;
+  cout
+      << "\t"
+      << "yaw_pitch_roll = (yaw="
+      << yaw_pitch_roll[0]
+      << ", pitch="
+      << yaw_pitch_roll[1]
+      << ", roll="
+      << yaw_pitch_roll[2]
+      << ")"
+      << endl;
   cout << "\t" << "Number of visible tiles: " << vptiles.size() << endl;
   cout << "\t" << "Visible tiles indices: ";
   for (const Tile& tile : vptiles) {
@@ -67,7 +109,7 @@ void Test::test_CsvHandler() {};
 
 void Test::test_OpenCV() {
   std::string image_path = "teste.png";
-  cv::Mat img = cv::imread(image_path, cv::IMREAD_COLOR);
+  cv::Mat img            = cv::imread(image_path, cv::IMREAD_COLOR);
 
   if (img.empty()) {
     std::cout << "Could not read the image: " << image_path << std::endl;
