@@ -91,3 +91,4 @@ cv::Mat Viewport::extract_viewport(cv::Mat proj_frame,
 
   return vp_img;
 }
+
