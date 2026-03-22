@@ -12,8 +12,6 @@ Projection::Projection(const Resolution& resolution,
   int tile_w            = resolution[0] / tiling[0];
   int tile_h            = resolution[1] / tiling[1];
   this->tile_resolution = Resolution(tile_w, tile_h);
-
-  this->make_tile_list();
 }
 
 void Projection::make_tile_list() {
