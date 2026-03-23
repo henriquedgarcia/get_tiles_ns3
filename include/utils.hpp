@@ -12,8 +12,6 @@ inline double deg2rad(double deg) { return deg * std::numbers::pi / 180.0; }
 
 inline double rad2deg(double rad) { return rad * 180.0 / std::numbers::pi; }
 
-inline Point3D normalize(Point3D p) { return cv::normalize(p); }
-
 inline double dot(const Point3D& a,
                   const Point3D& b) {
   return a.dot(b);

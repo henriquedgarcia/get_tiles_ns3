@@ -13,7 +13,7 @@ Point3D slerp(const Point3D& p0, const Point3D& p1, double t) {
 
     // Caso especial: pontos iguais
     if (theta < 1e-8) {
-        return normalize(p0); // ou p1, são equivalentes
+        return cv::normalize(p0); // ou p1, são equivalentes
     }
 
     double sin_theta = sin(theta); // Para evitar divisão por zero
@@ -23,7 +23,7 @@ Point3D slerp(const Point3D& p0, const Point3D& p1, double t) {
     Point3D result = {w0 * p0.x + w1 * p1.x,  // x
                       w0 * p0.y + w1 * p1.y,  // y
                       w0 * p0.z + w1 * p1.z}; // z
-    return normalize(result);
+    return cv::normalize(result);
 }
 
 vector<Point3D> predict_future(const vector<Point3D>& past, int n_future,
