@@ -94,3 +94,49 @@ cv::Mat applyRotation(const GridPoint3D xyz_grid_default,
 
   return xyz_grid_rotated;
 }
+
+
+vector<Tile> make_tile_list(Projection* projection) {
+  int index = 0;
+  vector<Tile> vptiles;
+
+  for (int h = 0; h < projection->tiling[1]; h++) {
+    for (int w = 0; w < projection->tiling[0]; w++) {
+      PointMN position(w * (projection->tile_resolution[0]),
+                       h * (projection->tile_resolution[1]));
+      Tile tile(index, projection->tile_resolution, position);
+      tile.borders = get_tile_borders(tile);
+
+      vector<Point3D> xyz_points;
+      for (const auto& border : tile.borders) {
+        xyz_points.push_back(projection->mn2xyz(border));
+      }
+      tile.borders_xyz = xyz_points;
+
+      vptiles.push_back(tile);
+      index++;
+    }
+  }
+  return vptiles;
+}
+
+vector<PointMN> get_tile_borders(const Tile& tile) {
+  vector<PointMN> borders;
+
+  int left_x   = tile.position[0];
+  int right_x  = tile.position[0] + tile.resolution[0];
+  int top_y    = tile.position[1];
+  int bottom_y = tile.position[1] + tile.resolution[1];
+
+  for (int x = left_x; x < right_x; x++) {
+    borders.push_back(PointMN(x, top_y));     // Top edge
+    borders.push_back(PointMN(x, bottom_y));  // Bottom edge
+  }
+  for (int y = top_y; y < bottom_y; y++) {
+    borders.push_back(PointMN(left_x, y));   // Left edge
+    borders.push_back(PointMN(right_x, y));  // Right edge
+  }
+
+  return borders;
+};
+

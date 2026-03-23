@@ -19,8 +19,6 @@ class Projection {
   virtual Point3D mn2xyz(const PointMN& mn) const  = 0;
   virtual PointMN xyz2mn(const Point3D& xyz) const = 0;
   virtual ~Projection()                            = default;
-  void make_tile_list();
-  static std::vector<PointMN> get_tile_borders(const Tile& tile);
 };
 
 #endif  // PROJECTION_H

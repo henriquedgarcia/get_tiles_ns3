@@ -24,12 +24,18 @@ std::vector<Point3D> predict_future(const std::vector<Point3D>& data,
 
 std::pair<double,
           double>
+
 linear_regression(const std::vector<double>& y);
 
 std::vector<double> linspace(const double start,
                              const double end,
                              const int num_points);
+
 cv::Mat applyRotation(const cv::Mat& points,
                       const cv::Mat& R);
+
+void make_tile_list();
+
+std::vector<PointMN> get_tile_borders(const Tile& tile);
 
 #endif  // UTILS_H
