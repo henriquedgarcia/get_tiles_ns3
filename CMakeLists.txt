@@ -21,6 +21,8 @@ set(SOURCES
     src/draw.cpp
     src/viewport.cpp
     src/test.cpp
+    src/erp_map.cpp
+    src/utils_transform.cpp
 )
 
 add_executable(main ${SOURCES})
