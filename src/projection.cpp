@@ -1,6 +1,4 @@
 #include "projection.hpp"
-#include <opencv2/core.hpp>
-#include <vector>
 #include "types.hpp"
 #include "utils.hpp"
 
