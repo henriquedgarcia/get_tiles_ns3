@@ -11,8 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenCV REQUIRED)
 
-set(SOURCES
-    src/main.cpp
+add_library(core
     src/projection.cpp
     src/erp.cpp
     src/seen_tiles.cpp
@@ -20,17 +19,24 @@ set(SOURCES
     src/utils.cpp
     src/draw.cpp
     src/viewport.cpp
-    src/test.cpp
     src/erp_map.cpp
-    src/utils_transform.cpp
+    src/utils_transformations.cpp
 )
 
-add_executable(main ${SOURCES})
-
-target_include_directories(main PRIVATE
+target_include_directories(core PUBLIC
     ${OpenCV_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/tests
 )
 
-target_link_libraries(main PRIVATE ${OpenCV_LIBS})
-set_target_properties(main PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+target_link_libraries(core PUBLIC ${OpenCV_LIBS})
+
+add_executable(tests
+    tests/main_tests.cpp
+    tests/test_erp_projection.cpp
+    tests/test_framework.cpp
+)
+target_link_libraries(tests PRIVATE core)
+set_target_properties(tests PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
+)
