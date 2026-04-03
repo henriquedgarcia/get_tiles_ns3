@@ -9,8 +9,8 @@
 #include <vector>            // std::vector
 
 #define PI CV_PI          // PI
-#define PI_2 CV_PI / 2    // PI / 2
-#define TWO_PI 2 * CV_PI  // 2 * PI
+#define PI_2 CV_PI / 2.    // PI / 2
+#define TWO_PI CV_2PI  // 2 * PI
 
 using PointYawPitchRoll = cv::Vec3d;  // (yaw, pitch, roll) (double)
 using AePoint           = cv::Vec2d;  // (azimuth, elevation) (double)
