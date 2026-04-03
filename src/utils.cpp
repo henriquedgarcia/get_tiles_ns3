@@ -31,8 +31,8 @@ linear_regression(const std::vector<double> &y) {
   return {a, b};
 }
 
-std::vector<Point3D> predict_future(const std::vector<Point3D> &data,
-                                    int n_future) {
+std::vector<Point3D>
+predict_future(const std::vector<Point3D> &data, int n_future) {
   int n_input = (int)data.size();
 
   // extrair cada coordenada
@@ -62,8 +62,8 @@ std::vector<Point3D> predict_future(const std::vector<Point3D> &data,
   return future;
 }
 
-std::vector<double> linspace(const double start, const double end,
-                             const int num_points) {
+std::vector<double>
+linspace(const double start, const double end, const int num_points) {
   double step = (end - start) / (num_points - 1);
 
   std::vector<double> output;
@@ -79,8 +79,9 @@ std::vector<Tile> make_tile_list(Projection *projection) {
 
   for (int h = 0; h < projection->tiling[1]; h++) {
     for (int w = 0; w < projection->tiling[0]; w++) {
-      PointMN position(w * (projection->tile_resolution[0]),
-                       h * (projection->tile_resolution[1]));
+      PointMN position(
+          w * (projection->tile_resolution[0]),
+          h * (projection->tile_resolution[1]));
       Tile tile(index, projection->tile_resolution, position);
       tile.borders = get_tile_borders(tile);
 
@@ -116,3 +117,5 @@ std::vector<PointMN> get_tile_borders(const Tile &tile) {
 
   return borders;
 };
+
+
