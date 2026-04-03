@@ -20,3 +20,4 @@ Makefile
 /.vscode
 /old
 *.log
+/bin
