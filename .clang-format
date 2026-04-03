@@ -1,1 +1,14 @@
 BasedOnStyle: LLVM
+ColumnLimit: 80
+
+# Alinhamento em chamadas
+BinPackArguments: false
+BinPackParameters: false
+AllowAllArgumentsOnNextLine: false
+AlignAfterOpenBracket: true
+PackConstructorInitializers: Never
+
+# Alinhamento em Bloco
+SeparateDefinitionBlocks: Always
+EmptyLineBeforeAccessModifier: LogicalBlock
+AccessModifierOffset: -1
