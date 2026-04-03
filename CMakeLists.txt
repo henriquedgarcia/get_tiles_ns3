@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(GetTiles)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenCV REQUIRED)
@@ -19,7 +19,7 @@ add_library(core
     src/utils.cpp
     src/draw.cpp
     src/viewport.cpp
-    src/erp_map.cpp
+    src/coord_map.cpp
     src/utils_transformations.cpp
 )
 
@@ -33,8 +33,9 @@ target_link_libraries(core PUBLIC ${OpenCV_LIBS})
 
 add_executable(tests
     tests/main_tests.cpp
-    tests/test_erp_projection.cpp
     tests/test_framework.cpp
+    tests/test_erp_projection.cpp
+    tests/test_erp_transformations.cpp
 )
 target_link_libraries(tests PRIVATE core)
 set_target_properties(tests PROPERTIES
