@@ -1,6 +1,6 @@
 #include "seen_tiles.hpp"
-// #include "mat_rot.hpp"
 #include <array>
+#include <cmath>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -22,17 +22,14 @@ SeenTiles::SeenTiles(const Fov &fov, const Projection *projection) {
 void SeenTiles::set_normals_default() {
   double fov_w_2 = this->fov[0] / 2;
   double fov_h_2 = this->fov[1] / 2;
-  double cos_fov_w = cos(fov_w_2);
-  double cos_fov_h = cos(fov_h_2);
-  double sin_fov_w = sin(fov_w_2);
-  double sin_fov_h = sin(fov_h_2);
 
   // (x, y, z)
-  Frustrum frustrum(Normal(-cos_fov_w, 0.0f, -sin_fov_w), // left
-                    Normal(cos_fov_w, 0.0f, -sin_fov_w),  // right
-                    Normal(0.0f, -cos_fov_h, -sin_fov_h), // top
-                    Normal(0.0f, cos_fov_h, -sin_fov_h)   // bottom
-  );
+  Normal normal_left(std::cos(fov_w_2 + PI_2), 0.0f, std::sin(fov_w_2 + PI_2));
+  Normal normal_right(std::cos(fov_w_2), 0.0f, -std::sin(fov_w_2));
+  Normal normal_top(0.0f, -std::cos(fov_h_2), -std::sin(fov_h_2));
+  Normal normal_bottom(0.0f, std::cos(fov_h_2), -std::sin(fov_h_2));
+
+  Frustrum frustrum(normal_left, normal_right, normal_top, normal_bottom);
   this->default_frustrum = frustrum;
 }
 
