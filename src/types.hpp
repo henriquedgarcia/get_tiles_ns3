@@ -8,9 +8,9 @@
 #include <variant>           // std::variant
 #include <vector>            // std::vector
 
-#define PI CV_PI          // PI
-#define PI_2 CV_PI / 2.    // PI / 2
-#define TWO_PI CV_2PI  // 2 * PI
+#define PI     3.1415926535897932384626433832795          // PI
+#define PI_2   1.5707963267948966192313216916398    // PI / 2
+#define TWO_PI 6.283185307179586476925286766559  // 2 * PI
 
 using PointYawPitchRoll = cv::Vec3d;  // (yaw, pitch, roll) (double)
 using AePoint           = cv::Vec2d;  // (azimuth, elevation) (double)
