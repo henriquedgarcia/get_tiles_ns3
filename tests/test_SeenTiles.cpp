@@ -15,3 +15,27 @@
   //   };
   //   cout << endl;
   // };
+
+  TestErpTransformations::TestErpTransformations() {
+  std::string log = "TestErpTransformations:\n";
+  TestRegistry tests(log);
+
+  tests.add("test_mn2uv", [this]() { test_mn2uv(); });
+  tests.add("test_uv2mn", [this]() { test_uv2mn(); });
+  tests.runAll();
+};
+
+void TestErpTransformations::test_mn2uv() {
+  Resolution resolution(4320, 2160);
+  PointMN mn(1360, 1825);
+  PointUV uv = erp::mn2uv(mn, resolution);
+  TEST_ASSERT(uv[0] == 0.31493055555555555 && uv[1] == 0.84513888888888888,
+              "mn2uv transformation failed");
+}
+
+void TestErpTransformations::test_uv2mn() {
+  Resolution resolution(4320, 2160);
+  PointUV uv(0.315, 0.845);
+  PointMN mn = erp::uv2mn(uv, resolution);
+  TEST_ASSERT(mn[0] == 1360 && mn[1] == 1825, "uv2mn transformation failed");
+}
