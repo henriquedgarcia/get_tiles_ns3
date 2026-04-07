@@ -2,7 +2,7 @@
 #include "coord_map.hpp"
 #include "test_framework.hpp"
 #include "utils.hpp"
-#include <sstream>
+#include <string>
 
 TestErpTransformations::TestErpTransformations() {
   std::string log = "TestErpTransformations:\n";
