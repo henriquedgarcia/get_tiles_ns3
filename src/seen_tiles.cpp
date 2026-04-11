@@ -20,17 +20,7 @@ SeenTiles::SeenTiles(const Fov &fov, const Projection *projection) {
 }
 
 void SeenTiles::set_normals_default() {
-  double fov_w_2 = this->fov[0] / 2;
-  double fov_h_2 = this->fov[1] / 2;
-
-  // (x, y, z)
-  Normal normal_left(std::cos(fov_w_2 + PI_2), 0.0f, std::sin(fov_w_2 + PI_2));
-  Normal normal_right(std::cos(fov_w_2), 0.0f, -std::sin(fov_w_2));
-  Normal normal_top(0.0f, -std::cos(fov_h_2), -std::sin(fov_h_2));
-  Normal normal_bottom(0.0f, std::cos(fov_h_2), -std::sin(fov_h_2));
-
-  Frustrum frustrum(normal_left, normal_right, normal_top, normal_bottom);
-  this->default_frustrum = frustrum;
+  this->default_frustrum = create_default_frustrum(this->fov);
 }
 
 std::vector<Tile> SeenTiles::get_vptiles(PointYawPitchRoll yaw_pitch_roll) {

@@ -118,4 +118,21 @@ std::vector<PointMN> get_tile_borders(const Tile &tile) {
   return borders;
 };
 
+Frustrum create_default_frustrum(Fov fov) {
+  // somente para fov < 180°
+  double fov_w_2 = fov[0] / 2;
+  double fov_h_2 = fov[1] / 2;
 
+  double sin_fov_w_2 = std::sin(fov_w_2);
+  double cos_fov_w_2 = std::cos(fov_w_2);
+  double sin_fov_h_2 = std::sin(fov_h_2);
+  double cos_fov_h_2 = std::cos(fov_h_2);
+
+  Normal normal_left(-sin_fov_w_2, 0.0, -cos_fov_w_2);
+  Normal normal_right(-sin_fov_w_2, 0.0, cos_fov_w_2);
+  Normal normal_top(-sin_fov_h_2, cos_fov_h_2, 0.0);
+  Normal normal_bottom(-sin_fov_h_2, -cos_fov_h_2, 0.0);
+
+  Frustrum frustrum(normal_left, normal_right, normal_top, normal_bottom);
+  return frustrum;
+}
