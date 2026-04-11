@@ -1,3 +1,6 @@
+#ifndef TEST_SEEN_TILES_H
+#define TEST_SEEN_TILES_H
+
 #include "seen_tiles.hpp"
 #include "test_framework.hpp"
 #include <sstream>
@@ -11,3 +14,5 @@ class TestSeenTiles {
  public:
   TestSeenTiles();
 };
+
+#endif // TEST_SEEN_TILES_H
