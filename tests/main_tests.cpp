@@ -1,9 +1,8 @@
-#include "test_erp_projection.hpp"
+#include "test_SeenTiles.hpp"
 #include "test_erp_transformations.hpp"
-#include <sstream>
 
 int main() {
-  // TestERP test;
   TestErpTransformations test_erp_transformations;
+  TestSeenTiles test_seen_tiles;
   return 0;
 }
