@@ -36,6 +36,7 @@ add_executable(tests
     tests/test_framework.cpp
     tests/test_erp_projection.cpp
     tests/test_erp_transformations.cpp
+    tests/test_SeenTiles.cpp    
 )
 target_link_libraries(tests PRIVATE gettiles)
 set_target_properties(tests PROPERTIES
