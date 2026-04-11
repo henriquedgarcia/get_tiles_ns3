@@ -1,41 +1,39 @@
-  // void Test::test_SeenTiles() {
-  //   SeenTiles seen_tiles(fov, this->proj);
-  //   std::vector<Tile> vptiles = seen_tiles.get_vptiles(yaw_pitch_roll);
+#include "test_SeenTiles.hpp"
+#include "erp.hpp"
+#include "types.hpp"
+#include "utils.hpp"
 
-  //   // informações sobre os tiles. fazer um loop também.
-  //   cout << "\t" << "fov = " << fov[0] << "x" << fov[1] << endl;
-  //   cout << "\t"
-  //        << "yaw_pitch_roll = (yaw=" << yaw_pitch_roll[0]
-  //        << ", pitch=" << yaw_pitch_roll[1] << ", roll=" << yaw_pitch_roll[2]
-  //        << ")" << endl;
-  //   cout << "\t" << "Number of visible tiles: " << vptiles.size() << endl;
-  //   cout << "\t" << "Visible tiles indices: ";
-  //   for (const Tile &tile : vptiles) {
-  //     cout << tile.index << " ";
-  //   };
-  //   cout << endl;
-  // };
-
-  TestErpTransformations::TestErpTransformations() {
-  std::string log = "TestErpTransformations:\n";
-  TestRegistry tests(log);
-
-  tests.add("test_mn2uv", [this]() { test_mn2uv(); });
-  tests.add("test_uv2mn", [this]() { test_uv2mn(); });
+TestSeenTiles::TestSeenTiles() {
+  TestRegistry tests("TestSeenTiles:\n");
+  tests.add("test_set_normals_default",
+            [this]() { test_set_normals_default(); });
+  // tests.add("test_get_vptiles", [this]() { test_get_vptiles(); });
   tests.runAll();
-};
-
-void TestErpTransformations::test_mn2uv() {
-  Resolution resolution(4320, 2160);
-  PointMN mn(1360, 1825);
-  PointUV uv = erp::mn2uv(mn, resolution);
-  TEST_ASSERT(uv[0] == 0.31493055555555555 && uv[1] == 0.84513888888888888,
-              "mn2uv transformation failed");
 }
 
-void TestErpTransformations::test_uv2mn() {
-  Resolution resolution(4320, 2160);
-  PointUV uv(0.315, 0.845);
-  PointMN mn = erp::uv2mn(uv, resolution);
-  TEST_ASSERT(mn[0] == 1360 && mn[1] == 1825, "uv2mn transformation failed");
+void TestSeenTiles::test_set_normals_default() {
+  Fov fov(deg2rad(110.0), deg2rad(90.0));
+  Frustrum frustrum = create_default_frustrum(fov);
+
+  Normal normal_left(-0.8191520442889918, 0.0, -0.57357643635104616);
+  Normal normal_right(-0.8191520442889918, 0.0, 0.57357643635104616);
+  Normal normal_top(-0.70710678118654746, 0.70710678118654757, 0);
+  Normal normal_bottom(-0.70710678118654746, -0.70710678118654757, 0);
+
+  bool result = true;
+  result &= frustrum.normals[0] == normal_left;
+  result &= frustrum.normals[1] == normal_right;
+  result &= frustrum.normals[2] == normal_top;
+  result &= frustrum.normals[3] == normal_bottom;
+  TEST_ASSERT(result, "test_set_normals_default failed");
 }
+
+void TestSeenTiles::test_tile_is_in_frustrum() {
+  Fov fov(deg2rad(110.0), deg2rad(90.0));
+  ERP erp(Tiling(6, 4), Resolution(4320, 2160));
+  SeenTiles seen_tiles(fov, &erp);
+}
+
+void TestSeenTiles::test_is_in() {}
+
+void TestSeenTiles::test_get_vptiles() {}
