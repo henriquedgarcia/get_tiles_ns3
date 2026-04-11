@@ -68,8 +68,10 @@ TestRegistry::TestRegistry(std::string name)
       log("") {}
 
 void TestRegistry::save_log() {
-  std::string nomeArquivo = get_log_filename("test_log");
+  std::string prefix = "test_log_" + name;
+  std::string nomeArquivo = get_log_filename(prefix);
   std::ofstream arquivo(nomeArquivo);
+
   if (arquivo.is_open()) {
     arquivo << this->log;
     arquivo.close();
