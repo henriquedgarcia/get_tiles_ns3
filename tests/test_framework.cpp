@@ -15,10 +15,11 @@ Em seguida, a classe de teste deve adicionar os testes usando o método add e po
 fim chamar o método runAll para executar os testes. O log será salvo pela classe
 TestRegistry.
 
-O método add recebe um objeto std::string com o nome do teste e uma função lambda. O lambda deve chamar o
-método de teste correspondente. O método de teste deve usar a macro TEST_ASSERT
-para verificar as condições do teste. Se a condição for verdadeira, o teste
-passa, caso contrário, ele falha. Todo caso é registrado no log.
+O método add recebe um objeto std::string com o nome do teste e uma função
+lambda. O lambda deve chamar o método de teste correspondente. O método de teste
+deve usar a macro TEST_ASSERT para verificar as condições do teste. Se a
+condição for verdadeira, o teste passa, caso contrário, ele falha. Todo caso é
+registrado no log.
 
 Exemplo:
 
