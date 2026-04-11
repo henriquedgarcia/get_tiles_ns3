@@ -4,6 +4,6 @@
 
 int main() {
   // TestERP test;
-  TestErpTransformations test;
+  TestErpTransformations test_erp_transformations;
   return 0;
 }
