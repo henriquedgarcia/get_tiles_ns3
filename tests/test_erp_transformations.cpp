@@ -5,8 +5,8 @@
 #include <string>
 
 TestErpTransformations::TestErpTransformations() {
-  std::string log = "TestErpTransformations:\n";
-  TestRegistry tests(log);
+  std::string title = "TestErpTransformations";
+  TestRegistry tests(title + ":\n");
 
   tests.add("test_mn2uv", [this]() { test_mn2uv(); });
   tests.add("test_uv2mn", [this]() { test_uv2mn(); });
