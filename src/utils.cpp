@@ -8,9 +8,7 @@
 #include <sstream> // std::stringstream
 #include <vector>  // std::vector
 
-std::pair<double, double>
-
-linear_regression(const std::vector<double> &y) {
+std::pair<double, double> linear_regression(const std::vector<double> &y) {
   int n = (int)y.size();
   std::vector<double> x(n);
   std::iota(x.begin(), x.end(), 0);
@@ -62,8 +60,7 @@ std::vector<Point3D> predict_future(const std::vector<Point3D> &data,
   return future;
 }
 
-std::vector<double>
-linspace(const double start, const double end, const int num_points) {
+std::vector<double> linspace(const double start, const double end, const int num_points) {
   double step = (end - start) / (num_points - 1);
 
   std::vector<double> output;
