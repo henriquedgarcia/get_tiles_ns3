@@ -1,5 +1,6 @@
 #include "test_SeenTiles.hpp"
 #include "erp.hpp"
+#include "seen_tiles.hpp"
 #include "types.hpp"
 #include "utils.hpp"
 
@@ -8,6 +9,8 @@ TestSeenTiles::TestSeenTiles() {
   tests.add("test_set_normals_default",
             [this]() { test_set_normals_default(); });
   // tests.add("test_get_vptiles", [this]() { test_get_vptiles(); });
+  // tests.add("test_is_in", [this]() { test_is_in(); });
+  // tests.add("test_is_in_frustrum", [this]() { test_is_in_frustrum(); });
   tests.runAll();
 }
 
@@ -28,12 +31,14 @@ void TestSeenTiles::test_set_normals_default() {
   TEST_ASSERT(result, "test_set_normals_default failed");
 }
 
-void TestSeenTiles::test_tile_is_in_frustrum() {
+void TestSeenTiles::test_get_vptiles() {
   Fov fov(deg2rad(110.0), deg2rad(90.0));
-  ERP erp(Tiling(6, 4), Resolution(4320, 2160));
-  SeenTiles seen_tiles(fov, &erp);
+  ERP *erp = new ERP(Tiling(6, 4), Resolution(4320, 2160));
+  
+  SeenTiles seen_tiles(fov, erp);
+  std::vector<Tile> tiles_list =
+      seen_tiles.get_vptiles(PointYawPitchRoll(0, 0, 0));
+  bool result = tiles_list.size() == 3 && tiles_list[0].index == 6 &&
+                tiles_list[1].index == 7 && tiles_list[2].index == 8;
+  TEST_ASSERT(result, "test_get_vptiles failed");
 }
-
-void TestSeenTiles::test_is_in() {}
-
-void TestSeenTiles::test_get_vptiles() {}
