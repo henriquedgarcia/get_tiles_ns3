@@ -20,7 +20,6 @@ add_library(gettiles
     src/draw.cpp
     src/viewport.cpp
     src/coord_map.cpp
-    src/utils_transformations.cpp
 )
 
 target_include_directories(gettiles PUBLIC
