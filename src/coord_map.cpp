@@ -24,13 +24,13 @@ AePoint xyz2ae(const Point3D &xyz) {
 };
 
 /////////////// ERP coordinate transformations ////////////////////
-PointUV erp::mn2uv(const PointMN &mn, const Resolution &resolution) {
+PointUV erp_space::mn2uv(const PointMN &mn, const Resolution &resolution) {
   double u = (mn[0] + 0.5) / (resolution[0]);
   double v = (mn[1] + 0.5) / (resolution[1]);
   return PointUV(u, v);
 };
 
-PointMN erp::uv2mn(const PointUV &uv, const Resolution &resolution) {
+PointMN erp_space::uv2mn(const PointUV &uv, const Resolution &resolution) {
   // PS. Isso aqui obriga a usar interopolação por vizinho mais próximo.
   ushort m = std::floor(uv[0] * resolution[0]);
   ushort n = std::floor(uv[1] * resolution[1]);
@@ -45,13 +45,13 @@ PointMN erp::uv2mn(const PointUV &uv, const Resolution &resolution) {
   return PointMN(m, n);
 };
 
-AePoint erp::uv2ae(const PointUV &uv) {
+AePoint erp_space::uv2ae(const PointUV &uv) {
   double a = uv[0] * (2. * PI) - PI;
   double e = uv[1] * (-PI) + PI_2;
   return AePoint(a, e);
 };
 
-PointUV erp::ae2uv(const AePoint &ae) {
+PointUV erp_space::ae2uv(const AePoint &ae) {
   double u = ae[0] / (TWO_PI) + 0.5;
   double v = -ae[1] / PI + 0.5;
   return PointUV(u, v);

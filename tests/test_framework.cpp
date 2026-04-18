@@ -35,7 +35,7 @@ TestErpTransformations::TestErpTransformations() {
 void TestErpTransformations::test_mn2uv() {
   Resolution resolution(4320, 2160);
   PointMN mn(1360, 1825);
-  PointUV uv = erp::mn2uv(mn, resolution);
+  PointUV uv = erp_space::mn2uv(mn, resolution);
   TEST_ASSERT(uv[0] == 0.31493055555555555 && uv[1] == 0.84513888888888888,
               "mn2uv transformation failed");
 }
@@ -43,7 +43,7 @@ void TestErpTransformations::test_mn2uv() {
 void TestErpTransformations::test_uv2mn() {
   Resolution resolution(4320, 2160);
   PointUV uv(0.315, 0.845);
-  PointMN mn = erp::uv2mn(uv, resolution);
+  PointMN mn = erp_space::uv2mn(uv, resolution);
   TEST_ASSERT(mn[0] == 1360 && mn[1] == 1825, "uv2mn transformation failed");
 }
 

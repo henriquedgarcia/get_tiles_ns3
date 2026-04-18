@@ -20,7 +20,7 @@ TestErpTransformations::TestErpTransformations() {
 void TestErpTransformations::test_mn2uv() {
   Resolution resolution(4320, 2160);
   PointMN mn(1360, 1825);
-  PointUV uv = erp::mn2uv(mn, resolution);
+  PointUV uv = erp_space::mn2uv(mn, resolution);
   TEST_ASSERT(uv[0] == 0.31493055555555555 && uv[1] == 0.84513888888888888,
               "mn2uv transformation failed");
 }
@@ -28,20 +28,20 @@ void TestErpTransformations::test_mn2uv() {
 void TestErpTransformations::test_uv2mn() {
   Resolution resolution(4320, 2160);
   PointUV uv(0.315, 0.845);
-  PointMN mn = erp::uv2mn(uv, resolution);
+  PointMN mn = erp_space::uv2mn(uv, resolution);
   TEST_ASSERT(mn[0] == 1360 && mn[1] == 1825, "uv2mn transformation failed");
 }
 
 void TestErpTransformations::test_uv2ae() {
   PointUV uv(0.315, 0.845);
-  AePoint ae = erp::uv2ae(uv);
+  AePoint ae = erp_space::uv2ae(uv);
   TEST_ASSERT(ae[0] == -1.1623892818282235 && ae[1] == -1.0838494654884787,
               "uv2ae transformation failed");
 }
 
 void TestErpTransformations::test_ae2uv() {
   AePoint ae(-1.16, -1.08);
-  PointUV uv = erp::ae2uv(ae);
+  PointUV uv = erp_space::ae2uv(ae);
   // Olha só o problema de arredondamento. Queria ter uma função de
   // arredondamento que arredondasse para um número específico de casas
   // decimais. Se fosse 3 casas decimais seria perfeito.
