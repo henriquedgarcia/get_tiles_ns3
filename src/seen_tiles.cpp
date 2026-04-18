@@ -14,7 +14,6 @@ SeenTiles::SeenTiles(const Fov &fov, const Projection *projection) {
   this->projection = projection;
   this->tiling = projection->tiling;
   this->resolution = projection->resolution;
-  this->n_tiles = tiling[0] * tiling[1];
 
   this->set_normals_default();
 }

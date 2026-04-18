@@ -14,7 +14,6 @@ class SeenTiles {
   Frustrum rotated_frustrum;
 
   PointYawPitchRoll yaw_pitch_roll;
-  int n_tiles;  //remover isso. projection já tem n_tiles
   
   void set_normals_default();
   bool tile_is_in_frustrum(Tile tile);
