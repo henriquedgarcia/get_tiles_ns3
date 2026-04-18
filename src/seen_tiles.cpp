@@ -18,21 +18,11 @@ SeenTiles::SeenTiles(const Fov &fov, const Projection *projection) {
   this->set_normals_default();
 }
 
-void SeenTiles::rotate_frustrum() {
-  cv::Quatd quat = create_quaternion(this->yaw_pitch_roll);
-  default_frustrum = create_default_frustrum(this->fov);
-  for (int i = 0; i < 4; i++) {
-    Normal normal = this->default_frustrum.normals[i];
-    this->rotated_frustrum.normals[i] = rotate(normal, quat);
-  }
-}
-
 void SeenTiles::set_normals_default() {
   this->default_frustrum = create_default_frustrum(this->fov);
 }
 
 std::vector<Tile> SeenTiles::get_vptiles(PointYawPitchRoll yaw_pitch_roll) {
-  this->yaw_pitch_roll = yaw_pitch_roll;
   std::vector<Tile> vptiles;
 
   // Se o tiling é 1x1 retorne logo o único tile.
@@ -41,7 +31,7 @@ std::vector<Tile> SeenTiles::get_vptiles(PointYawPitchRoll yaw_pitch_roll) {
     return vptiles;
   }
 
-  this->rotate_frustrum();
+  this->rotate_frustrum(create_quaternion(yaw_pitch_roll));
 
   for (const Tile &tile : this->projection->tile_list) {
     if (this->tile_is_in_frustrum(tile)) {
@@ -49,6 +39,13 @@ std::vector<Tile> SeenTiles::get_vptiles(PointYawPitchRoll yaw_pitch_roll) {
     }
   }
   return vptiles;
+}
+
+void SeenTiles::rotate_frustrum(cv::Quatd quat) {
+  for (int i = 0; i < 4; i++) {
+    Normal normal = this->default_frustrum.normals[i];
+    this->rotated_frustrum.normals[i] = rotate(normal, quat);
+  }
 }
 
 bool SeenTiles::tile_is_in_frustrum(Tile tile) {
