@@ -6,9 +6,8 @@
 
 TestSeenTiles::TestSeenTiles() {
   TestRegistry tests("TestSeenTiles:\n");
-  tests.add("test_set_normals_default",
-            [this]() { test_set_normals_default(); });
-  // tests.add("test_get_vptiles", [this]() { test_get_vptiles(); });
+  tests.add("test_set_normals_default", [this]() { test_set_normals_default(); });
+  tests.add("test_get_vptiles", [this]() { test_get_vptiles(); });
   // tests.add("test_is_in", [this]() { test_is_in(); });
   // tests.add("test_is_in_frustrum", [this]() { test_is_in_frustrum(); });
   tests.runAll();
