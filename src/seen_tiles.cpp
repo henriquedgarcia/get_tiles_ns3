@@ -18,10 +18,6 @@ SeenTiles::SeenTiles(const Fov &fov, const Projection *projection) {
   this->set_normals_default();
 }
 
-void SeenTiles::set_normals_default() {
-  this->default_frustrum = create_default_frustrum(this->fov);
-}
-
 std::vector<Tile> SeenTiles::get_vptiles(PointYawPitchRoll yaw_pitch_roll) {
   std::vector<Tile> vptiles;
 
@@ -39,6 +35,10 @@ std::vector<Tile> SeenTiles::get_vptiles(PointYawPitchRoll yaw_pitch_roll) {
     }
   }
   return vptiles;
+}
+
+void SeenTiles::set_normals_default() {
+  this->default_frustrum = create_default_frustrum(this->fov);
 }
 
 void SeenTiles::rotate_frustrum(cv::Quatd quat) {
