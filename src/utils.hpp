@@ -8,6 +8,8 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
+static const auto angle_type = cv::QuatEnum::EulerAnglesType::INT_YZX;
+
 inline Point3D rotate(const Point3D &point, const cv::Quatd &quat) {
   cv::Quatd quat_conjugate = quat.conjugate();
   cv::Quatd q_vector = cv::Quatd(0, point[0], point[1], point[2]);
@@ -16,7 +18,6 @@ inline Point3D rotate(const Point3D &point, const cv::Quatd &quat) {
 }
 
 inline cv::Quatd create_quaternion(const PointYawPitchRoll &yaw_pitch_roll) {
-  auto angle_type = cv::QuatEnum::EulerAnglesType::INT_YZX;
   return cv::Quatd::createFromEulerAngles(yaw_pitch_roll, angle_type);
 }
 
