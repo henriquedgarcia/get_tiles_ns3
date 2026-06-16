@@ -8,7 +8,7 @@ cv::Mat Draw::draw_tile_border(Projection* projection,
   int w = projection->resolution[0];
 
   cv::Mat canvas(h, w, CV_8UC3);
-  std::vector<PointMN> borders = projection->tile_list[tile_id].borders;
+  std::vector<PointMN> borders = projection->get_tile_list()[tile_id].borders;
 
   for (auto& border : borders) {
     int x = border[0];
@@ -26,7 +26,7 @@ cv::Mat Draw::draw_all_tiles_borders(Projection* projection,
   int w = projection->resolution[0];
   cv::Mat canvas(h, w, CV_8UC3);
 
-  for (const Tile& tile : projection->tile_list) {
+  for (const Tile& tile : projection->get_tile_list()) {
     for (const PointMN& border : tile.borders) {
       int x = border[0];
       int y = border[1];
