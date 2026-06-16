@@ -1,13 +1,13 @@
 #ifndef VIEWPORT_H
 #define VIEWPORT_H
 
+#include "projection.hpp" // Projection
+#include "types.hpp"      // Point3D
 #include <cmath>
-#include <numbers>  // pi
-#include <numeric>  // std::iota
+#include <numbers> // pi
+#include <numeric> // std::iota
 #include <opencv2/opencv.hpp>
 #include <vector>
-#include "projection.hpp"  // Projection
-#include "types.hpp"       // Point3D
 
 class Viewport {
  private:
@@ -21,14 +21,14 @@ class Viewport {
  public:
   const Resolution resolution;
   const Fov fov;
-  const Projection* projection;
+  Projection &projection;
 
-  Viewport(const Resolution& resolution,
-           const Fov& fov,
-           const Projection* projection);
+  Viewport(const Resolution &resolution,
+           const Fov &fov,
+           Projection &projection);
 
   cv::Mat extract_viewport(cv::Mat proj_frame,
                            PointYawPitchRoll yaw_pitch_roll);
 };
 
-#endif  // VIEWPORT_H
+#endif // VIEWPORT_H
