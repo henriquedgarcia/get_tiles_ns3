@@ -60,7 +60,8 @@ std::vector<Point3D> predict_future(const std::vector<Point3D> &data,
   return future;
 }
 
-std::vector<double> linspace(const double start, const double end, const int num_points) {
+std::vector<double>
+linspace(const double start, const double end, const int num_points) {
   double step = (end - start) / (num_points - 1);
 
   std::vector<double> output;
@@ -73,7 +74,7 @@ std::vector<double> linspace(const double start, const double end, const int num
 std::vector<Tile> make_tile_list(Projection *projection) {
   int index = 0;
   std::vector<Tile> vptiles;
-
+  assert(projection != nullptr);
   for (int h = 0; h < projection->tiling[1]; h++) {
     for (int w = 0; w < projection->tiling[0]; w++) {
       PointMN position(w * (projection->tile_resolution[0]),
@@ -81,11 +82,12 @@ std::vector<Tile> make_tile_list(Projection *projection) {
       Tile tile(index, projection->tile_resolution, position);
       tile.borders = get_tile_borders(tile);
 
-      std::vector<Point3D> xyz_points;
+      // make tile borders
+      tile.borders_xyz = std::vector<Point3D>();
       for (const auto &border : tile.borders) {
-        xyz_points.push_back(projection->mn2xyz(border));
+        Point3D point = projection->mn2xyz(border);
+        tile.borders_xyz.push_back(point);
       }
-      tile.borders_xyz = xyz_points;
 
       vptiles.push_back(tile);
       index++;
