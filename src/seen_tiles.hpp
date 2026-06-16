@@ -3,11 +3,17 @@
 
 #include "projection.hpp"
 #include "types.hpp"
+#include <opencv2/core/quaternion.hpp>
 #include <vector>
 
 class SeenTiles {
+ public:
   Fov fov;
-  const Projection *projection;
+  Projection &projection;
+  SeenTiles(const Fov &, Projection &);
+  std::vector<Tile> get_vptiles(PointYawPitchRoll);
+
+ private:
   Tiling tiling;
   Resolution resolution;
   Frustrum default_frustrum;
@@ -17,10 +23,6 @@ class SeenTiles {
   bool tile_is_in_frustrum(Tile tile);
   bool is_in(Point3D xyz);
   void rotate_frustrum(cv::Quatd quat);
-
- public:
-  SeenTiles(const Fov &fov, const Projection *projection);
-  std::vector<Tile> get_vptiles(PointYawPitchRoll yaw_pitch_roll);
 };
 
 #endif
