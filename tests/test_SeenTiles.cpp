@@ -6,10 +6,9 @@
 
 TestSeenTiles::TestSeenTiles() {
   TestRegistry tests("TestSeenTiles:\n");
-  tests.add("test_set_normals_default", [this]() { test_set_normals_default(); });
+  tests.add("test_set_normals_default",
+            [this]() { test_set_normals_default(); });
   tests.add("test_get_vptiles", [this]() { test_get_vptiles(); });
-  // tests.add("test_is_in", [this]() { test_is_in(); });
-  // tests.add("test_is_in_frustrum", [this]() { test_is_in_frustrum(); });
   tests.runAll();
 }
 
@@ -32,12 +31,18 @@ void TestSeenTiles::test_set_normals_default() {
 
 void TestSeenTiles::test_get_vptiles() {
   Fov fov(deg2rad(110.0), deg2rad(90.0));
-  ERP *erp = new ERP(Tiling(6, 4), Resolution(4320, 2160));
+  Resolution resolution(4320, 2160);
+  Tiling tiling(6, 4);
+  PointYawPitchRoll viewpoint(0, 0, 0);
   
-  SeenTiles seen_tiles(fov, erp);
-  std::vector<Tile> tiles_list =
-      seen_tiles.get_vptiles(PointYawPitchRoll(0, 0, 0));
-  bool result = tiles_list.size() == 3 && tiles_list[0].index == 6 &&
-                tiles_list[1].index == 7 && tiles_list[2].index == 8;
+  auto erp = std::make_unique<ERP>(resolution, tiling);
+  SeenTiles seen_tiles(fov, *erp);
+  
+  std::vector<Tile> tiles_list = seen_tiles.get_vptiles(viewpoint);
+  
+  bool result = tiles_list.size() == 6 && tiles_list[0].index == 2 &&
+                tiles_list[1].index == 3 && tiles_list[2].index == 8 &&
+                tiles_list[3].index == 9 && tiles_list[4].index == 14 &&
+                tiles_list[5].index == 15;
   TEST_ASSERT(result, "test_get_vptiles failed");
 }
