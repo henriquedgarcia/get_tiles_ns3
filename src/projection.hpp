@@ -6,11 +6,12 @@
 #include <vector>
 
 class Projection {
-public:
+  std::vector<Tile> tile_list;
+
+ public:
   Resolution resolution;
   Tiling tiling;
   Resolution tile_resolution;
-  std::vector<Tile> tile_list;
   uchar n_tiles;
 
   Projection(const Resolution &resolution, const Tiling &tiling);
