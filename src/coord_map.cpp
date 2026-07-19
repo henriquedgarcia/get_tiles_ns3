@@ -1,5 +1,4 @@
 #include "coord_map.hpp"
-#include "projection.hpp"
 #include <cmath>
 
 Point3D ae2xyz(const AePoint &ae) {
@@ -7,19 +6,20 @@ Point3D ae2xyz(const AePoint &ae) {
   // system. ISO/IEC JTC1/SC29/WG11/N17197l: Algorithm descriptions of
   // projection format conversion and video quality metrics in 360Lib Version 5
 
-  // X axis point to front, Y axis point to up and Z axis point to right.
+  // X axis point to right, Y axis point to down and Z axis point to front.
 
-  double x = cos(ae[0]) * cos(ae[1]);
-  double y = sin(ae[1]);
-  double z = cos(ae[1]) * sin(ae[0]);
+  double x = sin(ae[0]) * cos(ae[1]);
+  double y = -sin(ae[1]);
+  double z = cos(ae[0]) * cos(ae[1]);
+
   return Point3D(x, y, z);
 };
 
 AePoint xyz2ae(const Point3D &xyz) {
   double r = std::hypot(xyz[0], xyz[1], xyz[2]);
 
-  double elevation = asin(xyz[1] / r);
-  double azimuth = atan2(xyz[2], xyz[0]);
+  double elevation = asin(-xyz[1] / r);
+  double azimuth = atan2(xyz[0], xyz[2]);
   return AePoint(azimuth, elevation);
 };
 
