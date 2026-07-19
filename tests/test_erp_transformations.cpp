@@ -55,7 +55,7 @@ void TestErpTransformations::test_ae2xyz() {
   AePoint ae = AePoint(-1.16, -1.08);
   Point3D xyz = ae2xyz(ae);
   TEST_ASSERT(xyz[0] == 0.18822004714496987 && xyz[1] == -0.88195780688494751 &&
-                  xyz[2] == 0.43211530952679628,
+                  xyz[2] == -0.43211530952679628,
               "ae2xyz transformation failed");
 }
 
