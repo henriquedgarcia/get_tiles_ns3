@@ -135,3 +135,27 @@ Frustrum create_default_frustrum(Fov fov) {
   Frustrum frustrum(normal_left, normal_right, normal_top, normal_bottom);
   return frustrum;
 }
+
+void rotate_grid(const GridPoint3D &xyz_grid_default,
+                 const PointYawPitchRoll &yaw_pitch_roll,
+                 GridPoint3D &xyz_grid_rotated) {
+  CV_CheckEQ(xyz_grid_default.size(),
+             xyz_grid_rotated.size(),
+             "As matrizes devem ter o mesmo tamanho");
+
+  xyz_grid_rotated.setTo(cv::Scalar(0., 0., 0.));
+  cv::Quatd quat = create_quaternion(yaw_pitch_roll);
+
+  for (int i = 0; i < xyz_grid_rotated.rows; i++) {
+    for (int j = 0; j < xyz_grid_rotated.cols; j++) {
+      xyz_grid_rotated(i, j) = rotate(xyz_grid_default(i, j), quat);
+    }
+  }
+}
+
+Point3D rotate(const Point3D &point, const cv::Quatd &quat) {
+  cv::Quatd q_vector = cv::Quatd(0, point[0], point[1], point[2]);
+  cv::Quatd quat_conjugate = quat.conjugate();
+  cv::Quatd result = quat * q_vector * quat_conjugate;
+  return cv::Vec3d(result.x, result.y, result.z);
+}

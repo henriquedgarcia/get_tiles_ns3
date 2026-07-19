@@ -8,40 +8,27 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
-static const auto angle_type = cv::QuatEnum::EulerAnglesType::INT_YZX;
-
-inline Point3D rotate(const Point3D &point, const cv::Quatd &quat) {
-  cv::Quatd quat_conjugate = quat.conjugate();
-  cv::Quatd q_vector = cv::Quatd(0, point[0], point[1], point[2]);
-  cv::Quatd result = quat * q_vector * quat_conjugate;
-  return cv::Vec3d(result.x, result.y, result.z);
-}
+static const auto angle_type = cv::QuatEnum::EulerAnglesType::INT_YXZ;
 
 inline cv::Quatd create_quaternion(const PointYawPitchRoll &yaw_pitch_roll) {
   return cv::Quatd::createFromEulerAngles(yaw_pitch_roll, angle_type);
 }
 
-inline GridPoint3D rotate_grid(const GridPoint3D xyz_grid_default,
-                               const PointYawPitchRoll &yaw_pitch_roll) {
-  int rows = xyz_grid_default.rows;
-  int cols = xyz_grid_default.cols;
-  cv::Quatd quat = create_quaternion(yaw_pitch_roll);
+inline double to_int(double x) { return static_cast<int>(x); }
 
-  GridPoint3D xyz_grid_rotated = xyz_grid_default.clone();
-
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      xyz_grid_rotated(i, j) = rotate(xyz_grid_default(i, j), quat);
-    }
-  }
-  return xyz_grid_rotated;
-}
+inline double to_double(int x) { return static_cast<double>(x); }
 
 inline double deg2rad(double deg) { return deg * PI / 180.0; }
 
 inline double rad2deg(double rad) { return rad * 180.0 / PI; }
 
 inline double dot(const Point3D &a, const Point3D &b) { return a.dot(b); }
+
+void rotate_grid(const GridPoint3D &xyz_grid_default,
+                 const PointYawPitchRoll &yaw_pitch_roll,
+                 GridPoint3D &xyz_grid_rotated);
+
+Point3D rotate(const Point3D &point, const cv::Quatd &quat);
 
 std::vector<Point3D> predict_future(const std::vector<Point3D> &data,
                                     int n_future = 30);
