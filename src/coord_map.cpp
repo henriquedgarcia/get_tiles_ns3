@@ -19,7 +19,7 @@ AePoint xyz2ae(const Point3D &xyz) {
   double r = std::hypot(xyz[0], xyz[1], xyz[2]);
 
   double elevation = asin(xyz[1] / r);
-  double azimuth = atan2(-xyz[2], xyz[0]);
+  double azimuth = atan2(xyz[2], xyz[0]);
   return AePoint(azimuth, elevation);
 };
 
