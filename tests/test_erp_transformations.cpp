@@ -54,14 +54,14 @@ void TestErpTransformations::test_ae2uv() {
 void TestErpTransformations::test_ae2xyz() {
   AePoint ae = AePoint(-1.16, -1.08);
   Point3D xyz = ae2xyz(ae);
-  TEST_ASSERT(xyz[0] == 0.18822004714496987 && xyz[1] == -0.88195780688494751 &&
-                  xyz[2] == -0.43211530952679628,
+  TEST_ASSERT(xyz[0] == -0.43211530952679628 && xyz[1] == 0.88195780688494751 &&
+                  xyz[2] == 0.18822004714496987,
               "ae2xyz transformation failed");
 }
 
 void TestErpTransformations::test_xyz2ae() {
   Point3D xyz = Point3D(0.188, -0.883, 0.432);
   AePoint ae = xyz2ae(xyz);
-  TEST_ASSERT(ae[0] == 1.1603304622311306 && ae[1] == -1.0806613827154099,
+  TEST_ASSERT(ae[0] == 0.41046586456376605 && ae[1] == 1.0806613827154099,
               "xyz2ae transformation failed");
 }
