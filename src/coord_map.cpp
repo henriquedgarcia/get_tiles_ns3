@@ -11,7 +11,7 @@ Point3D ae2xyz(const AePoint &ae) {
 
   double x = cos(ae[0]) * cos(ae[1]);
   double y = sin(ae[1]);
-  double z = -cos(ae[1]) * sin(ae[0]);
+  double z = cos(ae[1]) * sin(ae[0]);
   return Point3D(x, y, z);
 };
 
