@@ -33,7 +33,7 @@ void TestViewport::test_extract_viewport() {
   cv::imshow("Display window", extracted_viewport);
   cv::waitKey(0); // Wait for a keystroke in the window
 
-  std::cout << "convertendo: " << image_path << std::endl;
-  cv::imwrite("extracted_viewport.png", extracted_viewport);
+  std::cout << "salvando: " << image_path << std::endl;
+  cv::imwrite("tests/assets/extracted_viewport.png", extracted_viewport);
   std::cout << "saindo: " << std::endl;
 }
