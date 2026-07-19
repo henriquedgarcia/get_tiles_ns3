@@ -24,15 +24,7 @@ void TestViewport::test_extract_viewport() {
   PointYawPitchRoll yaw_pitch_roll(0, 0, 0);
   cv::Mat proj_frame = cv::imread(image_path, cv::IMREAD_COLOR);
 
-  // Verificar se carregou corretamente
-  if (proj_frame.empty()) {
-    std::cout << "Could not read the image: " << image_path << std::endl;
-    return;
-  }
-  std::cout << "Exibindo: " << image_path << std::endl;
-  cv::imshow("Display window", proj_frame);
-
-  int k = cv::waitKey(0); // Wait for a keystroke in the window
+  TEST_ASSERT(!proj_frame.empty(), "Could not read image: " + image_path);
 
   cv::Mat extracted_viewport =
       viewport.extract_viewport(proj_frame, yaw_pitch_roll);
