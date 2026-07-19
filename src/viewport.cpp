@@ -20,8 +20,10 @@ void Viewport::fill_xyz_grid_default() {
   double tan_fov_y_2 = std::tan(this->fov[1] / 2);
   double tan_fov_x_2 = std::tan(this->fov[0] / 2);
 
-  std::vector<double> y_axis = linspace(-tan_fov_y_2, tan_fov_y_2, h);
-  std::vector<double> x_axis = linspace(-tan_fov_x_2, tan_fov_x_2, w);
+  // x: esquerda negativo, direita positivo
+  std::vector<double> z_axis = linspace(-tan_fov_x_2, tan_fov_x_2, w);
+  // y: topo negativo, baixo positivo
+  std::vector<double> y_axis = linspace(tan_fov_y_2, -tan_fov_y_2, h);
 
   this->xyz_grid_default = GridPoint3D(h, w);
 
