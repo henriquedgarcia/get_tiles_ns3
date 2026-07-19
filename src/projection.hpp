@@ -11,7 +11,7 @@ class Projection {
  public:
   Resolution resolution;
   Tiling tiling;
-  Resolution tile_resolution;
+  Resolution tile_resolution;  // todo: converter todo Resolution em cv::Size
   uchar n_tiles;
 
   Projection(const Resolution &resolution, const Tiling &tiling);
