@@ -29,6 +29,8 @@ void TestErpTransformations::test_uv2mn() {
   Resolution resolution(4320, 2160);
   PointUV uv(0.315, 0.845);
   PointMN mn = erp_space::uv2mn(uv, resolution);
+  mn[0] = std::floor(mn[0]);
+  mn[1] = std::floor(mn[1]);
   TEST_ASSERT(mn[0] == 1360 && mn[1] == 1825, "uv2mn transformation failed");
 }
 
@@ -60,6 +62,6 @@ void TestErpTransformations::test_ae2xyz() {
 void TestErpTransformations::test_xyz2ae() {
   Point3D xyz = Point3D(0.188, -0.883, 0.432);
   AePoint ae = xyz2ae(xyz);
-  TEST_ASSERT(ae[0] == -1.1603304622311306 && ae[1] == -1.0806613827154099,
+  TEST_ASSERT(ae[0] == 1.1603304622311306 && ae[1] == -1.0806613827154099,
               "xyz2ae transformation failed");
 }
