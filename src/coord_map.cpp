@@ -31,8 +31,8 @@ PointUV erp_space::mn2uv(const PointMN &mn, const Resolution &resolution) {
 };
 
 PointMN erp_space::uv2mn(const PointUV &uv, const Resolution &resolution) {
-  double m = uv[0] * resolution[0];
-  double n = uv[1] * resolution[1];
+  double m = uv[0] * resolution[0] - 0.5;
+  double n = uv[1] * resolution[1] - 0.5;
 
   // Clausula de guarda. Se o valor de m ou n for igual ou maior que a
   // resolução, é porque ele deu a volta no circulo. Isso nunca deve acontecer.
