@@ -67,7 +67,7 @@ void Viewport::rotate_viewport() {
 cv::Mat Viewport::extract_viewport(cv::Mat proj_frame,
                                    PointYawPitchRoll yaw_pitch_roll) {
   Resolution proj_frame_res(proj_frame.cols, proj_frame.rows);
- 
+
   if (!(proj_frame_res == this->projection.resolution)) {
     throw std::invalid_argument(
         "Input frame shape does not match projection shape");
@@ -85,12 +85,15 @@ cv::Mat Viewport::extract_viewport(cv::Mat proj_frame,
     }
   }
 
-  cv::Mat map1, map2;
-  mn_coord.col(1).convertTo(map1, CV_64F); // mapa do X
-  mn_coord.col(0).convertTo(map2, CV_64F); // mapa do Y
+  std::vector<cv::Mat> channels;
+  cv::split(mn_coord, channels); // channels[0]=m (x), channels[1]=n (y)
+
+  cv::Mat map_x, map_y;
+  channels[0].convertTo(map_x, CV_32F); // mapa do X
+  channels[1].convertTo(map_y, CV_32F); // mapa do Y
 
   cv::Mat vp_img;
-  cv::remap(proj_frame, vp_img, map1, map2, cv::INTER_LINEAR, cv::BORDER_WRAP);
+  cv::remap(proj_frame, vp_img, map_x, map_y, cv::INTER_LINEAR, cv::BORDER_WRAP);
 
   return vp_img;
 }
