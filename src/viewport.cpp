@@ -27,11 +27,11 @@ void Viewport::fill_xyz_grid_default() {
 
   this->xyz_grid_default = GridPoint3D(h, w);
 
-  for (auto &y : y_axis) {
-    for (auto &x : x_axis) {
-      Point3D xyz_coord(x, y, 1.0);
+  for (int i = 0; i < h; i++) {
+    for (int j = 0; j < w; j++) {
+      Point3D xyz_coord(1.0, y_axis[i], z_axis[j]);
       Point3D xyz_coord_normalized = xyz_coord / cv::norm(xyz_coord);
-      this->xyz_grid_default(y, x) = xyz_coord_normalized;
+      this->xyz_grid_default(i, j) = xyz_coord_normalized;
     }
   }
 }
