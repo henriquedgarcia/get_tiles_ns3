@@ -39,8 +39,8 @@ PointMN erp_space::uv2mn(const PointUV &uv, const Resolution &resolution) {
   // É a mesma coisa do angulo 0 e 360 serem o mesmo ponto. Os pontos são só de
   // 0 até (resolution - 1). Posteriormente a função cv::remap vai lidar com
   // isso.
-  m = m >= resolution[0] ? 0 : m;
-  n = n >= resolution[1] ? 0 : n;
+  m = m >= resolution[0] ? 0. : m;
+  n = n >= resolution[1] ? 0. : n;
   return PointMN(m, n);
 };
 
