@@ -41,15 +41,15 @@ void Viewport::rotate_viewport() {
   this->xyz_grid_rotated = this->xyz_grid_default.clone();
   int rows = this->xyz_grid_default.rows;
   int cols = this->xyz_grid_default.cols;
+  double yaw = this->yaw_pitch_roll[0];
+  double pitch = this->yaw_pitch_roll[1];
+  double roll = this->yaw_pitch_roll[2];
 
-  cv::Quatd q1 = cv::Quatd::createFromAngleAxis(this->yaw_pitch_roll[0],
-                                                AXIS_X); // x
-  cv::Quatd q2 = cv::Quatd::createFromAngleAxis(this->yaw_pitch_roll[1],
-                                                AXIS_Y); // y
-  cv::Quatd q3 = cv::Quatd::createFromAngleAxis(this->yaw_pitch_roll[2],
-                                                AXIS_Z); // z
+  cv::Quatd qy = cv::Quatd::createFromAngleAxis(yaw, AXIS_Y);
+  cv::Quatd qz = cv::Quatd::createFromAngleAxis(pitch, AXIS_Z);
+  cv::Quatd qx = cv::Quatd::createFromAngleAxis(roll, AXIS_X);
 
-  cv::Quatd quat_final = q3 * q1 * q2;
+  cv::Quatd quat_final = qx * qz * qy;
 
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
