@@ -15,7 +15,7 @@ TestViewport::TestViewport() {
 void TestViewport::test_extract_viewport() {
   std::string image_path = "tests/assets/erp1.png";
   Fov fov(deg2rad(110.0), deg2rad(90.0));
-  Resolution resolution(4320, 2160);
+  Resolution resolution(2160, 1080);
   Tiling tiling(6, 4);
 
   auto projection = std::make_unique<ERP>(resolution, tiling);
